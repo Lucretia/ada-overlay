@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Run by calling the script with the following:
+#
+# GCC_MAJOR=10 ./scripts/build-bootstrap.sh
+#
+# GCC_MAJOR can be set to 9, 10, 11, 12 does not work as it's from git not archive.
+
+# TODO: Add clean up.
+
 # $1 = Filename to create using touch, used in successive steps to test
 #      if the previous step was completed.
 function check_error()
