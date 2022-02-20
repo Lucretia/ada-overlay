@@ -1,40 +1,5 @@
 #!/bin/bash
 
-# Unpack GCC sources, apply any patches.
-# Download the prerequisites
-
-# USAGE="Usage: build-bootstrap.sh [options]\n\n
-# Options are:\n\t
-# 	--gcc <gcc-archive>\t\t\t\tGCC source archive.\n\t
-# 	--gentoo|-g <gentoo_patches_archive>\t\tArchive containing Gentoo's GCC patchset for this GCC version.\n\t
-# 	--patches|-p <patches_directory>\t\tDirectory containing optional patches to apply, optional.\n\t
-# 	--host|-h <host-triple>\t\t\tTriple describing the host computer we are building on, i.e. x86_64-pc-linux-gnu\n\t
-# 	--build|-b <build-triple>\t\t\tTriple describing the computer we are building for, i.e. x86_64-pc-linux-gnu\n\t
-# 	--target|-t <target-triple>\t\t\tTriple describing the computer we are targetting, i.e. x86_64-pc-linux-gnu
-# "
-
-# USAGE="Usage: build-bootstrap.sh [options]\n\n
-# Options are:\n\t
-# "
-
-# if [[ $# != 3 ]]; then
-# 	echo -e ${USAGE}
-
-# 	exit 1
-# fi
-
-# GCC_MAJOR=$(echo ${GCC_ARC} | awk -F\. '{ print $1 }')
-# GCC_MINOR=$(echo ${GCC_ARC} | awk -F\. '{ print $2 }')
-# GCC_REV=$(echo ${GCC_ARC} | awk -F\. '{ print $3 }')
-
-# for arg in "$@"
-# do
-# 	echo ">> $arg"
-# 	shift
-# done
-
-# exit 0
-
 # $1 = Filename to create using touch, used in successive steps to test
 #      if the previous step was completed.
 function check_error()
