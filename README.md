@@ -57,7 +57,9 @@ As stated above, this no longer is up to date and working. GNAT GPL is being [di
 5. Add ```profiles/package``` to block ::gentoo Ada packages, for now.
 6. Add a basic/default environment to gcc-config (note gprbuild doesn't use this) - Is this still required?
 7. Get toolchain.eclass modifications added to Gentoo base.
-8. More??
+8. Remove ```ADA_TARGET``` which is set to one of the gnat gpl compiler's.
+9. Remove ```ada.eclass```, which uses gnat gpl specific to create a build environment.
+10. More??
 
 ## Contributions
 
