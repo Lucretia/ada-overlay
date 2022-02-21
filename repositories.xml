@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<repositories version="1.0">
+  <repo quality="experimental" status="unofficial">
+    <name>ada</name>
+      <description lang="en">Ada Support Gentoo Overlay.</description>
+        <homepage>https://github.com/my-name/ada-overlay</homepage>
+        <owner type="person">
+            <name>Luke A. Guest</name>
+            <email>owner@lukeaguest.com</email>
+        </owner>
+        <source type="git">git@github.com:Lucretia/ada-overlay.git</source>
+        <source type="git">https://github.com/Lucretia/ada-overlay.git</source>
+        <feed>https://github.com/Lucretia/ada-overlay/commits/master.atom</feed>
+  </repo>
+</repositories>

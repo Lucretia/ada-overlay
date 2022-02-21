@@ -11,7 +11,7 @@ dropbox and should eventually be moved to distfiles.
 ### With Layman
 
 ```
-$ layman -p 20 -f -a ada -o https://raw.githubusercontent.com/Lucretia/ada-overlay/master/configs/layman.xml
+$ layman -p 20 -f -a ada -o https://raw.githubusercontent.com/Lucretia/ada-overlay/master/repositories.xml
 ```
 
 ### Cloning
