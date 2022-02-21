@@ -1,0 +1,18 @@
+# This file will hard mask all the Ada packages in ::gentoo, for some reason,
+# any eix-sync or emerge will cause the following error to be displayed:
+#
+# --- Invalid atom in <path-to>/ada-overlay/profiles/package.mask: dev-ada/*::gentoo
+# --- Invalid atom in <path-to>/ada-overlay/profiles/package.mask: dev-lang/gnat-gpl::gentoo
+#
+# I don't know why, any other attempt doesn't mask the packages. The complaint
+# seems to be the "::gentoo" part.
+#
+# If anyone knows how to fix this, please send a PR, thanks.
+
+# Disable all of the dev-ada::gentoo packages
+
+dev-ada/*::gentoo
+
+# Also disable GNAT-GPL.
+
+dev-lang/gnat-gpl::gentoo
