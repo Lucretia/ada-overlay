@@ -11,7 +11,7 @@ SRC_URI="
 "
 
 LICENSE="GPL-3+ LGPL-3+ || ( GPL-3+ libgcc libstdc++ gcc-runtime-library-exception-3.1 ) FDL-1.3+"
-SLOT="10"
+SLOT="11"
 KEYWORDS="-* amd64" # arm arm64 ppc64 ~riscv ~s390 x86 ~amd64-linux ~x86-linux ~x64-macos ~x64-solaris"
 # IUSE="big-endian"
 RESTRICT="primaryuri mirror strip"
