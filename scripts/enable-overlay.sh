@@ -10,3 +10,9 @@ else
     echo "dev-ada/*::gentoo" >> /etc/portage/package.mask
     echo "dev-lang/gnat-gpl::gentoo" >> /etc/portage/package.mask
 fi
+
+if [ -d /etc/portage/package.use ]; then
+    echo "sys-devel/gcc ada" >> /etc/portage/package.use/gcc.use
+else
+    echo "sys-devel/gcc ada" >> /etc/portage/package.use
+fi
