@@ -219,6 +219,31 @@ BDEPEND="
 	)"
 DEPEND="${RDEPEND}"
 
+# Depend on the version we already have installed or a bootstrap version.
+# Make sure the version required is at least the previous major version.
+# TODO: Can a version compile the previous version?
+if tc_version_is_at_least 12.0 ;  then
+	BDEPEND+=" ada? ( || (
+		>=sys-devel/gcc-11*[ada]
+		dev-lang/ada-bootstrap:12 )
+	)"
+elif tc_version_is_at_least 11.0 ; then
+	BDEPEND+=" ada? ( || (
+		>=sys-devel/gcc-10*[ada]
+		dev-lang/ada-bootstrap:11 )
+	)"
+elif tc_version_is_at_least 10.0 ; then
+	BDEPEND+=" ada? ( || (
+		>=sys-devel/gcc-9.4.0[ada]
+		dev-lang/ada-bootstrap:10 )
+	)"
+elif tc_version_is_at_least 9.0 ; then
+	BDEPEND+=" ada? ( || (
+		sys-devel/gcc:9.4.0[ada]
+		dev-lang/ada-bootstrap:9 )
+	)"
+fi
+
 if tc_has_feature gcj ; then
 	DEPEND+="
 		gcj? (
@@ -401,6 +426,8 @@ SRC_URI=$(get_gcc_src_uri)
 
 toolchain_pkg_pretend() {
 	if ! _tc_use_if_iuse cxx ; then
+		_tc_use_if_iuse ada && \
+			ewarn 'Ada requires a C++ compiler, disabled due to USE="-cxx"'
 		_tc_use_if_iuse go && \
 			ewarn 'Go requires a C++ compiler, disabled due to USE="-cxx"'
 		_tc_use_if_iuse objc++ && \
@@ -743,6 +770,29 @@ toolchain_src_configure() {
 		confgcc+=( --target=${CTARGET} )
 	fi
 	[[ -n ${CBUILD} ]] && confgcc+=( --build=${CBUILD} )
+
+	if use_if_iuse ada ; then
+		# Make sure we set a path to the Ada bootstrap if gcc[ada] is not already installed.
+		if has_version -b "sys-devel/gcc[ada]" ; then
+			einfo "Using installed GNAT compiler..."
+		else
+			einfo "Using bootstrap GNAT compiler..."
+
+			if tc_version_is_at_least 12.0 ;  then
+				ADA_BOOTSTRAP_DIR="ada-bootstrap-12"
+			elif tc_version_is_at_least 11.0 ; then
+				ADA_BOOTSTRAP_DIR="ada-bootstrap-11"
+			elif tc_version_is_at_least 10.0 ; then
+				ADA_BOOTSTRAP_DIR="ada-bootstrap-10.3.0"
+			elif tc_version_is_at_least 9.0 ; then
+				ADA_BOOTSTRAP_DIR="ada-bootstrap-9.4.0"
+			fi
+
+			PATH="/opt/${ADA_BOOTSTRAP_DIR}/bin:${PATH}"
+
+			export PATH
+		fi
+	fi
 
 	confgcc+=(
 		--prefix="${PREFIX}"
