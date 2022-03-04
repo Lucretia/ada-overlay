@@ -159,7 +159,7 @@ if [[ ${PN} != "kgcc64" && ${PN} != gcc-* ]] ; then
 	tc_version_is_at_least 6.5 &&
 		IUSE+=" graphite" TC_FEATURES+=( graphite )
 	tc_version_is_between 4.9 8 && IUSE+=" cilk"
-	tc_version_is_at_least 4.9 && IUSE+=" ada"
+	# tc_version_is_at_least 4.9 && IUSE+=" ada"
 	tc_version_is_at_least 4.9 && IUSE+=" vtv"
 	tc_version_is_at_least 5.0 && IUSE+=" jit"
 	tc_version_is_between 5.0 9 && IUSE+=" mpx"
@@ -167,7 +167,7 @@ if [[ ${PN} != "kgcc64" && ${PN} != gcc-* ]] ; then
 	# systemtap is a gentoo-specific switch: bug #654748
 	tc_version_is_at_least 8.0 &&
 		IUSE+=" systemtap" TC_FEATURES+=( systemtap )
-	tc_version_is_at_least 9.0 && IUSE+=" d"
+	tc_version_is_at_least 9.0 && IUSE+=" ada d"
 	tc_version_is_at_least 9.1 && IUSE+=" lto"
 	tc_version_is_at_least 10 && IUSE+=" cet"
 	tc_version_is_at_least 10 && IUSE+=" zstd" TC_FEATURES+=( zstd )
