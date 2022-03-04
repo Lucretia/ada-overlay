@@ -39,6 +39,10 @@ To enable the ada use flag and disable the Gentoo default packages, run the foll
 $ sudo ./scripts/enable-overlay.sh
 ```
 
+## Ada Bootstrap
+
+The script to build the bootstrap is incredibly fragile and can break every time the gcc archive versions change inside Gentoo. It might be worth not basing the bootstrap, on Gentoo's sources and just grab the version from git.
+
 ## Roadmap and Status
 
 As stated above, this no longer is up to date and working. GNAT GPL is being [discontinued](https://www.reddit.com/r/ada/comments/hwgbwa/survey_on_the_future_of_gnat_community) ([results](https://www.reddit.com/r/ada/comments/j6oz6i/results_of_the_survey_on_the_future_of_gnat/)) and can not be relied upon as the basis for Ada on Gentoo from now on. The plan is as follows:
