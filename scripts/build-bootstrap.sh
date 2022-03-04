@@ -59,9 +59,10 @@ case ${GCC_MAJOR} in
 
 	12)
 		GCC_VER="12"
-		GCC_ARC="gcc-11.3.0.tar.xz"
-		GCC_PATCHES_PATTERN="gcc-11.3.0-patches*"
-		ADACORE_BRANCH=""
+		GCC_ARC=""
+		GCC_PATCHES_PATTERN="gcc-12.0.0-patches-3.tar.bz2"
+		GCC_DIR="gcc-${GCC_VER}"
+		ADACORE_BRANCH="master"
 	;;
 esac
 
@@ -77,11 +78,17 @@ pushd /tmp
 # echo ${GCC_PATCHES}
 
 if [ ! -f .gcc-unpacked-${GCC_MAJOR} ]; then
-	echo ">> Unpacking ${GCC_ARC}..."
+	if [[ ${GCC_ARC} == "" && ${GCC_VER} == "12" ]]; then
+		echo ">> Downloading GCC 12 from master..."
 
-	tar -xJpf ${DISTFILES}/${GCC_ARC}
+		git clone --depth 2 https://gcc.gnu.org/git/gcc.git ${GCC_DIR}
+	else
+		echo ">> Unpacking ${GCC_ARC}..."
 
-	check_error .gcc-unpacked-${GCC_MAJOR}
+		tar -xJpf ${DISTFILES}/${GCC_ARC}
+
+		check_error .gcc-unpacked-${GCC_MAJOR}
+	fi
 fi
 
 if [ ! -f .gcc-unpacked-patches-${GCC_MAJOR} ]; then
