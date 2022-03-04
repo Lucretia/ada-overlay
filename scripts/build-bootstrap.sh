@@ -71,7 +71,9 @@ if [[ ! -f ${DISTFILES}/${GCC_ARC} ]]; then
 	emerge -f sys-devel/gcc:${GCC_VER}
 fi
 
-GCC_PATCHES=$(ls ${DISTFILES}/${GCC_PATCHES_PATTERN})
+if [[ ${GCC_PATCHES_PATTERN} != "" ]]; then
+	GCC_PATCHES=$(ls ${DISTFILES}/${GCC_PATCHES_PATTERN})
+fi
 
 pushd /tmp
 
@@ -92,24 +94,28 @@ if [ ! -f .gcc-unpacked-${GCC_MAJOR} ]; then
 	fi
 fi
 
-if [ ! -f .gcc-unpacked-patches-${GCC_MAJOR} ]; then
-	echo ">> Unpacking ${GCC_PATCHES}..."
+if [[ ${GCC_PATCHES} != "" ]]; then
+	if [ ! -f .gcc-unpacked-patches-${GCC_MAJOR} ]; then
+		echo ">> Unpacking ${GCC_PATCHES}..."
 
-	tar -xjpf ${GCC_PATCHES}
+		tar -xjpf ${GCC_PATCHES}
 
-	check_error .gcc-unpacked-patches-${GCC_MAJOR}
+		check_error .gcc-unpacked-patches-${GCC_MAJOR}
+	fi
 fi
 
 cd ${GCC_DIR}
 
-if [ ! -f .gcc-patched-${GCC_MAJOR} ]; then
-	echo ">> Patching ${GCC_ARC}..."
+if [[ ${GCC_PATCHES} != "" ]]; then
+	if [ ! -f .gcc-patched-${GCC_MAJOR} ]; then
+		echo ">> Patching ${GCC_ARC}..."
 
-	for f in $(ls ../patch/[0-9]*_all_*.patch); do
-		patch -p1 < $f
-	done
+		for f in $(ls ../patch/[0-9]*_all_*.patch); do
+			patch -p1 < $f
+		done
 
-	check_error .gcc-patched-${GCC_MAJOR}
+		check_error .gcc-patched-${GCC_MAJOR}
+	fi
 fi
 
 # TODO: Get base dir from archive.
