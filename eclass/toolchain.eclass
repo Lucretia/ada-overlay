@@ -224,12 +224,12 @@ DEPEND="${RDEPEND}"
 # TODO: Can a version compile the previous version?
 if tc_version_is_at_least 12.0 ;  then
 	BDEPEND+=" ada? ( || (
-		>=sys-devel/gcc-11*[ada]
+		>=sys-devel/gcc-11[ada]
 		dev-lang/ada-bootstrap:12 )
 	)"
 elif tc_version_is_at_least 11.0 ; then
 	BDEPEND+=" ada? ( || (
-		>=sys-devel/gcc-10*[ada]
+		>=sys-devel/gcc-10[ada]
 		dev-lang/ada-bootstrap:11 )
 	)"
 elif tc_version_is_at_least 10.0 ; then
