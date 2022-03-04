@@ -37,7 +37,6 @@ case ${GCC_MAJOR} in
 		GCC_VER="9.4.0"
 		GCC_ARC="gcc-9.4.0.tar.xz"
 		GCC_PATCHES_PATTERN="gcc-9.4.0-patches-1.tar.bz2"
-		# GCC_PATCHES=$(ls ${DISTFILES}/${GCC_PATCHES_PATTERN})
 		GCC_DIR=$(echo "${GCC_ARC}" | awk -F\. '{ print $1"."$2"."$3 }')
 		ADACORE_BRANCH="21.0"
 	;;
@@ -45,30 +44,23 @@ case ${GCC_MAJOR} in
 	10)
 		GCC_VER="10"
 		GCC_ARC="gcc-10-20211126.tar.xz"
-		# GCC_ARC="gcc-10.3.0.tar.xz"
 		GCC_PATCHES_PATTERN="gcc-10.4.0-patches-0.tar.bz2"
-		# GCC_PATCHES=$(ls ${DISTFILES}/gcc-10.3.0-patches*)
-		# GCC_DIR=$(echo "${GCC_ARC}" | awk -F\. '{ print $1"."$2"."$3 }')
 		GCC_DIR=$(echo "${GCC_ARC}" | awk -F\. '{ print $1 }')
 		ADACORE_BRANCH="21.2"
 	;;
 
 	11)
-		# echo "hello"
 		GCC_VER="11"
 		GCC_ARC="gcc-11-20220115.tar.xz"
 		GCC_PATCHES_PATTERN="gcc-11.3.0-patches-4.tar.bz2"
-		# GCC_PATCHES=$(ls ${DISTFILES}/gcc-11.3.0-patches*)
 		GCC_DIR=$(echo "${GCC_ARC}" | awk -F\. '{ print $1 }')
 		ADACORE_BRANCH="22.2"
-		# echo ">> GCC_PATCHES: $GCC_PATCHES"
 	;;
 
 	12)
 		GCC_VER="12"
 		GCC_ARC="gcc-11.3.0.tar.xz"
 		GCC_PATCHES_PATTERN="gcc-11.3.0-patches*"
-		# GCC_PATCHES=$(ls ${DISTFILES}/gcc-11.3.0-patches*)
 		ADACORE_BRANCH=""
 	;;
 esac
