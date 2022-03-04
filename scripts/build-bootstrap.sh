@@ -58,6 +58,7 @@ case ${GCC_MAJOR} in
 	;;
 
 	12)
+		# FYI: This didn't build with the 12 bootstrap, but with the 11.
 		GCC_VER="12"
 		GCC_ARC=""
 		GCC_PATCHES_PATTERN="gcc-12.0.0-patches-3.tar.bz2"
