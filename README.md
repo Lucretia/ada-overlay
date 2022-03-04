@@ -51,14 +51,15 @@ As stated above, this no longer is up to date and working. GNAT GPL is being [di
    * XMLAda
    * GNATColl
    * Alire
+   * GNATProve
    * Move over existing ebuild's from ::gentoo where possible.
    * Other various libraries:
      * [dev-ada-overlay](https://github.com/sarnold/dev-ada-overlay)
      * [Awesome Ada](https://github.com/ohenley/awesome-ada)
 3. Crossdev support for Ada - automatic once this is done.
 4. More eclasses for Ada ebuilds:
-   * ```gpr.eclass```
    * ```gnatmake.eclass```
+   * ```gprbuild.eclass```
    * ```alire.eclass```
 5. Add ```profiles/package``` to block ::gentoo Ada packages, for now.
 6. Add a basic/default environment to gcc-config (note gprbuild doesn't use this) - Is this still required?
