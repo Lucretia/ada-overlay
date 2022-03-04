@@ -33,6 +33,23 @@ GPRCONFIG_KB_GIT="https://github.com/AdaCore/gprconfig_kb.git"
 # WARNING: Clean out your portage/distfiles directory as this can become cluttered.
 # TODO: Need a better way of matching up the patches archive.
 case ${GCC_MAJOR} in
+	# 8)
+		# I cannot build this using gcc-9.4.0, I get the following errors:
+		#
+		# In file included from /usr/include/signal.h:328,
+		#                  from /usr/include/sys/param.h:28,
+		#                  from ../../gcc-8.5.0/gcc/system.h:298,
+		#                  from ../../gcc-8.5.0/gcc/ada/init.c:65:
+		# ../../gcc-8.5.0/gcc/ada/init.c:575:19: error: missing binary operator before token "("
+		#   575 | # if 16 * 1024 < (MINSIGSTKSZ)
+		#       |                   ^~~~~~~~~~~
+	# 	GCC_VER="8.5.0"
+	# 	GCC_ARC="gcc-8.5.0.tar.xz"
+	# 	GCC_PATCHES_PATTERN="gcc-8.5.0-patches-2.tar.bz2"
+	# 	GCC_DIR=$(echo "${GCC_ARC}" | awk -F\. '{ print $1"."$2"."$3 }')
+	# 	ADACORE_BRANCH="21.0"
+	# ;;
+
 	9)
 		GCC_VER="9.4.0"
 		GCC_ARC="gcc-9.4.0.tar.xz"
