@@ -70,6 +70,7 @@ As stated above, this no longer is up to date and working. GNAT GPL is being [di
    * ```gnatmake.eclass```
    * ```gprbuild.eclass```
    * ```alire.eclass```
+     * Not sure about this one now. During the emerge process, it's not allowed to call emerge again and I was considering adding emerge support to Alire, this would make Alire a user command only; I'm not even sure it can be used as a system command.
 5. Add a basic/default environment to gcc-config (note gprbuild doesn't use this) - Is this still required?
 6. Get toolchain.eclass modifications added to Gentoo base.
 7. More??
