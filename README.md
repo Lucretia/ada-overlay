@@ -51,12 +51,13 @@ I tried to build 6.5.0, 7.6.0 and 8.5.0, but they all fail to build, quite quick
 
 As stated above, this no longer is up to date and working. GNAT GPL is being [discontinued](https://www.reddit.com/r/ada/comments/hwgbwa/survey_on_the_future_of_gnat_community) ([results](https://www.reddit.com/r/ada/comments/j6oz6i/results_of_the_survey_on_the_future_of_gnat/)) and can not be relied upon as the basis for Ada on Gentoo from now on. The plan is as follows:
 
-1. Be able to build a normal system toolchain (sys-devel/gcc) including with Ada support using the ```ada``` use flag.
-   * Needs ebuild's for gcc copied over from ::gentoo.
-   * Needs the ```toolchain.eclass``` to be modified to build using ```ada-bootstrap``` for the relevant version, but only if the system compiler does *not* have Ada built-in.
+1. Incorporate ```ada-bootstrap``` (would be a local use flag) and ```system-bootstrap``` (currently useed by rust, go and openjdk) use flags into the build.
+   * These should be applied to the first two packages (XMLAda, GPRBuild), as they will need to access ```gprbuild``` in the ```ada-bootstrap``` package.
+   * Can use these with BDEPEND to bring in the correct ```ada-bootstrap``` archive.
+   * Will need to be switched to ```system-bootstrap``` once the system compiler is built with Ada.
 2. Add ebuild's for the following:
-   * GPR Tools and libraries.
    * XMLAda
+   * GPR Tools and libraries.
    * GNATColl
    * Alire
    * GNATProve
@@ -69,12 +70,9 @@ As stated above, this no longer is up to date and working. GNAT GPL is being [di
    * ```gnatmake.eclass```
    * ```gprbuild.eclass```
    * ```alire.eclass```
-5. Add ```profiles/package``` to block ::gentoo Ada packages, for now.
-6. Add a basic/default environment to gcc-config (note gprbuild doesn't use this) - Is this still required?
-7. Get toolchain.eclass modifications added to Gentoo base.
-8. Remove ```ADA_TARGET``` which is set to one of the gnat gpl compiler's.
-9. Remove ```ada.eclass```, which uses gnat gpl specific to create a build environment.
-10. More??
+5. Add a basic/default environment to gcc-config (note gprbuild doesn't use this) - Is this still required?
+6. Get toolchain.eclass modifications added to Gentoo base.
+7. More??
 
 ## Contributions
 
