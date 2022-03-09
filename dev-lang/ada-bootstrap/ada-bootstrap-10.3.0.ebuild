@@ -5,7 +5,7 @@ EAPI=8
 
 DESCRIPTION="Bootstrap package for sys-devel/gcc +ada"
 HOMEPAGE="https://gcc.gnu.org"
-BOOTSTRAP_DIST="https://www.dropbox.com/s/ji83pp4davzj6q7/ada-bootstrap-10.3.0-x86_64.tar.xz?dl=0"
+BOOTSTRAP_DIST="https://www.dropbox.com/s/m3njq778inpe8y4/ada-bootstrap-10-x86_64.tar.xz?dl=0"
 SRC_URI="
 	amd64? ( ${BOOTSTRAP_DIST} -> ada-bootstrap-${PV}-x86_64.tar.xz )
 "
