@@ -33,6 +33,8 @@ masters = gentoo
 auto-sync = no
 ```
 
+### Enable Ada support from this repo
+
 To enable the ada use flag and disable the Gentoo default packages, run the following:
 
 ```
