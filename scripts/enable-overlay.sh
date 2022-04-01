@@ -1,18 +1,32 @@
 #!/bin/sh
 
-echo "-ada" >> /etc/portage/profile/use.mask
-echo 'ADA_TARGET=""' >> /etc/portage/make.conf
+disable_gentoo() {
+    echo "-ada" >> /etc/portage/profile/use.mask
+    echo 'ADA_TARGET=""' >> /etc/portage/make.conf
 
-if [ -d /etc/portage/package.mask ]; then
-    echo "dev-ada/*::gentoo" >> /etc/portage/package.mask/ada.mask
-    echo "dev-lang/gnat-gpl::gentoo" >> /etc/portage/package.mask/ada.mask
-else
-    echo "dev-ada/*::gentoo" >> /etc/portage/package.mask
-    echo "dev-lang/gnat-gpl::gentoo" >> /etc/portage/package.mask
-fi
+    local DEV_ADA_MASK="dev-ada/*::gentoo"
+    local GNAT_GPL_MASK="dev-lang/gnat-gpl::gentoo"
+    local PATH="/etc/portage/package.mask"
 
-if [ -d /etc/portage/package.use ]; then
-    echo "sys-devel/gcc ada" >> /etc/portage/package.use/gcc.use
-else
-    echo "sys-devel/gcc ada" >> /etc/portage/package.use
-fi
+    if [ -d ${PATH} ]; then
+        echo ${DEV_ADA_MASK} >> ${PATH}/ada.mask
+        echo ${GNAT_GPL_MASK} >> ${PATH}/ada.mask
+    else
+        echo ${DEV_ADA_MASK} >> ${PATH}
+        echo ${GNAT_GPL_MASK} >> ${PATH}
+    fi
+}
+
+update_package_use() {
+    local STR="sys-devel/gcc ada ada-bootstrap"
+    local PATH="/etc/portage/package.use"
+
+    if [ -d ${PATH} ]; then
+        echo ${STR} >> ${PATH}/gcc.use
+    else
+        echo ${STR} >> ${PATH}
+    fi
+}
+
+disable_gentoo
+update_package_use
