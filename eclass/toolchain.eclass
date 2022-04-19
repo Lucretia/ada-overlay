@@ -279,7 +279,8 @@ if tc_has_feature systemtap ; then
 fi
 
 if tc_has_feature zstd ; then
-	DEPEND+=" zstd? ( app-arch/zstd )"
+	DEPEND+=" zstd? ( app-arch/zstd:= )"
+	RDEPEND+=" zstd? ( app-arch/zstd:= )"
 fi
 
 if tc_has_feature valgrind; then
