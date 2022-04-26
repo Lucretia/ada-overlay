@@ -3,19 +3,14 @@
 
 EAPI=7
 
-TOOLCHAIN_GCC_PV=12.0.1
-
-PATCH_VER="5"
-PATCH_GCC_VER="12.0.0"
-MUSL_VER="4"
-MUSL_GCC_VER="12.0.0"
+PATCH_VER="3"
+PATCH_GCC_VER="11.3.0"
+MUSL_VER="1"
+MUSL_GCC_VER="11.2.0"
 
 inherit toolchain
-# Needs to be after inherit (for now?), bug #830908
-EGIT_BRANCH=master
 
-# Don't keyword live ebuilds
-#KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sh ~sparc ~x86"
+#KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
 
 # Technically only if USE=hardened *too* right now, but no point in complicating it further.
 # If GCC is enabling CET by default, we need glibc to be built with support for it.
@@ -33,6 +28,11 @@ src_prepare() {
 	done
 
 	toolchain_src_prepare
+
+	if tc-is-cross-compiler ; then
+		# bug #803371
+		eapply "${FILESDIR}"/gcc-11.2.0-cross-compile-include.patch
+	fi
 
 	eapply_user
 }
