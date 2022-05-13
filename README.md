@@ -39,8 +39,12 @@ To enable the ada use flag and disable the Gentoo default packages, run the foll
 
 ```
 $ sudo ./scripts/enable-overlay.sh
+$ sudo emerge -av sys-devel/gcc
 ```
 
+The ```enable-overlay.sh``` script will enable all the use flags and disable the ```::gentoo``` specific packages. Once you have built GCC with Ada enabled, you need to disable the ```-ada-bootstrap``` USE flag and then rebuild it.
+
+The script will detect whether you have ```package.mask``` and ```package.use``` directories or files and insert the rules accordingly.
 ## Ada Bootstrap
 
 The script to build the bootstrap is incredibly fragile and can break every time the gcc archive versions change inside Gentoo. It might be worth not basing the bootstrap, on Gentoo's sources and just grab the version from git.
