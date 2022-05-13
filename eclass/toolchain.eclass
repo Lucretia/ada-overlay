@@ -799,7 +799,7 @@ toolchain_src_configure() {
 			elif tc_version_is_at_least 11.0 ; then
 				ADA_BOOTSTRAP_DIR="ada-bootstrap-11"
 			elif tc_version_is_at_least 10.0 ; then
-				ADA_BOOTSTRAP_DIR="ada-bootstrap-10.3.0"
+				ADA_BOOTSTRAP_DIR="ada-bootstrap-10"
 			elif tc_version_is_at_least 9.0 ; then
 				ADA_BOOTSTRAP_DIR="ada-bootstrap-9.4.0"
 			fi
