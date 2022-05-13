@@ -170,7 +170,7 @@ if [[ ${PN} != "kgcc64" && ${PN} != gcc-* ]] ; then
 	# systemtap is a gentoo-specific switch: bug #654748
 	tc_version_is_at_least 8.0 &&
 		IUSE+=" systemtap" TC_FEATURES+=( systemtap )
-	tc_version_is_at_least 9.0 && IUSE+=" ada d"
+	tc_version_is_at_least 9.0 && IUSE+=" ada ada-bootstrap d"
 	tc_version_is_at_least 9.1 && IUSE+=" lto"
 	tc_version_is_at_least 10 && IUSE+=" cet"
 	tc_version_is_at_least 10 && IUSE+=" zstd" TC_FEATURES+=( zstd )
@@ -228,22 +228,22 @@ DEPEND="${RDEPEND}"
 if tc_version_is_at_least 12.0 ;  then
 	BDEPEND+=" ada? ( || (
 		>=sys-devel/gcc-11[ada]
-		dev-lang/ada-bootstrap:12 )
+		ada-bootstrap? ( dev-lang/ada-bootstrap:12 ) )
 	)"
 elif tc_version_is_at_least 11.0 ; then
 	BDEPEND+=" ada? ( || (
 		>=sys-devel/gcc-10[ada]
-		dev-lang/ada-bootstrap:11 )
+		ada-bootstrap? ( dev-lang/ada-bootstrap:11 ) )
 	)"
 elif tc_version_is_at_least 10.0 ; then
 	BDEPEND+=" ada? ( || (
 		>=sys-devel/gcc-9.4.0[ada]
-		dev-lang/ada-bootstrap:10 )
+		ada-bootstrap? ( dev-lang/ada-bootstrap:10 ) )
 	)"
 elif tc_version_is_at_least 9.0 ; then
 	BDEPEND+=" ada? ( || (
 		sys-devel/gcc:9.4.0[ada]
-		dev-lang/ada-bootstrap:9 )
+		ada-bootstrap? ( dev-lang/ada-bootstrap:9 ) )
 	)"
 fi
 
@@ -805,6 +805,8 @@ toolchain_src_configure() {
 			fi
 
 			PATH="/opt/${ADA_BOOTSTRAP_DIR}/bin:${PATH}"
+
+			#einfo " >> Ada Bootstrap PATH = ${PATH}"
 
 			export PATH
 		fi
