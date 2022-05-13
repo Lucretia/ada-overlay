@@ -220,7 +220,6 @@ BDEPEND="
 		>=dev-util/dejagnu-1.4.4
 		>=sys-devel/autogen-5.5.4
 	)"
-DEPEND="${RDEPEND}"
 
 # Depend on the version we already have installed or a bootstrap version.
 # Make sure the version required is at least the previous major version.
@@ -246,6 +245,8 @@ elif tc_version_is_at_least 9.0 ; then
 		ada-bootstrap? ( dev-lang/ada-bootstrap:9 ) )
 	)"
 fi
+
+DEPEND="${RDEPEND}"
 
 if tc_has_feature gcj ; then
 	DEPEND+="
