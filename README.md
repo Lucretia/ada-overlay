@@ -1,6 +1,6 @@
 # Gentoo Ada overlay
 
-**WARNING:** This repository is currently unusable to get the system compiler built with Ada support.
+**WARNING:** This repository can be used to get the system compiler built with Ada support. You will need to use the ```gprbuild``` within the ```ada-bootstrap``` directory, place this last in the PATH.
 
 This overlay contains a modified set of packages and toolchain.eclass to enable
 Ada based on a USE flag.  The gnat bootstrap compilers are currently hosted on
