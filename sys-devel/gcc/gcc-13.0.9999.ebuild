@@ -1,8 +1,9 @@
 # Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=8
+EAPI=7
 
+TOOLCHAIN_PATCH_SUFFIX="xz"
 PATCH_VER="5"
 PATCH_GCC_VER="12.0.0"
 MUSL_VER="4"
