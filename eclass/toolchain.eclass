@@ -291,7 +291,7 @@ elif tc_version_is_at_least 10.0 ; then
 	)"
 elif tc_version_is_at_least 9.0 ; then
 	BDEPEND+=" ada? ( || (
-		sys-devel/gcc:9.4.0[ada]
+		>=sys-devel/gcc-9.4.0[ada]
 		ada-bootstrap? ( dev-lang/ada-bootstrap:9 ) )
 	)"
 fi
