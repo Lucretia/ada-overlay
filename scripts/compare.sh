@@ -18,7 +18,7 @@ GCC_DIR="sys-devel/gcc"
 PORTAGE_GCC_DIR="${PORTAGE_DIR}/${GCC_DIR}"
 PORTAGE_ECLASS_DIR="${PORTAGE_DIR}/eclass"
 
-printf ">> ${YELLOW}EBUILDS${NC}\n"
+printf ">> ${YELLOW}SYSTEM EBUILDS${NC}\n"
 
 EBUILDS=$(ls ${PORTAGE_GCC_DIR}/*.ebuild)
 
@@ -51,9 +51,28 @@ for e in ${EBUILDS}; do
     fi
 done
 
-printf "\n>> ${YELLOW}PATCHES${NC}\n"
+# Check for ebuilds in overlay which have been removed.
+printf "\n>> ${YELLOW}OVERLAY EBUILDS${NC}\n"
+
+EBUILDS=$(ls ${GCC_DIR}/*.ebuild)
+
+for e in ${EBUILDS}; do
+    echo ">> Checking for existence of '${e}' in overlay..."
+
+    FILE_NAME=$(basename ${e})
+
+    if [ ! -e "${PORTAGE_GCC_DIR}/${FILE_NAME}" ]; then
+        printf "\t${RED}Not found${NC}, deleting ${FILE_NAME}.\n"
+
+        rm ./${e}
+    else
+        printf "\t${YELLOW}Found${YELLOW}, keeping.\n"
+    fi
+done
 
 # Check for the patches in the ebuild/eclass.
+printf "\n>> ${YELLOW}PATCHES${NC}\n"
+
 PATCHES=$(ls ${PORTAGE_GCC_DIR}/files/*)
 
 function check_error() {
@@ -87,3 +106,5 @@ for p in ${PATCHES}; do
         echo -e "\t\t${YELLOW}Not found${NC} in either ebuild's or eclass, possibly safe to remove."
     fi
 done
+
+git status
