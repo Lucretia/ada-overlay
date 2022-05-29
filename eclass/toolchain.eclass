@@ -525,7 +525,7 @@ toolchain_pkg_setup() {
 	# See https://www.gnu.org/software/make/manual/html_node/Parallel-Output.html
 	# Avoid really confusing logs from subconfigure spam, makes logs far
 	# more legible.
-	MAKEOPTS=" --output-sync=line ${MAKEOPTS}"
+	MAKEOPTS+=" --output-sync=line"
 }
 
 #---->> src_unpack <<----
@@ -1132,7 +1132,7 @@ toolchain_src_configure() {
 			case ${CTARGET//_/-} in
 				*-hardfloat-*|*eabihf)
 					confgcc+=( --with-float=hard )
-					;;
+				;;
 			esac
 	esac
 
@@ -1399,7 +1399,7 @@ toolchain_src_configure() {
 
 		mkdir -p "${WORKDIR}"/build-jit || die
 		pushd "${WORKDIR}"/build-jit > /dev/null || die
-		CONFIG_SHELL="${BROOT}"/bin/bash edo "${S}"/configure \
+		CONFIG_SHELL="${BROOT}"/bin/bash edo "${BROOT}"/bin/bash "${S}"/configure \
 				"${confgcc[@]}" \
 				--disable-libada \
 				--disable-libsanitizer \
@@ -1416,10 +1416,10 @@ toolchain_src_configure() {
 
 	# Older gcc versions did not detect bash and re-exec itself, so force the
 	# use of bash. Newer ones will auto-detect, but this is not harmful.
-	CONFIG_SHELL="${BROOT}"/bin/bash edo "${S}"/configure "${confgcc[@]}"
+	CONFIG_SHELL="${BROOT}"/bin/bash edo "${BROOT}"/bin/bash "${S}"/configure "${confgcc[@]}"
 
 	# Return to whatever directory we were in before
-	popd > /dev/null
+	popd > /dev/null || die
 }
 
 # Replace -m flags unsupported by the version being built with the best
@@ -1744,6 +1744,19 @@ gcc_do_make() {
 		BOOT_CFLAGS=${BOOT_CFLAGS-"$(get_abi_CFLAGS ${TARGET_DEFAULT_ABI}) ${CFLAGS}"}
 	fi
 
+	if is_jit ; then
+		# TODO: docs for jit?
+		pushd "${WORKDIR}"/build-jit > /dev/null || die
+
+		einfo "Building JIT"
+		emake \
+			LDFLAGS="${LDFLAGS}" \
+			STAGE1_CFLAGS="${STAGE1_CFLAGS}" \
+			LIBPATH="${LIBPATH}" \
+			BOOT_CFLAGS="${BOOT_CFLAGS}"
+		popd > /dev/null || die
+        fi
+
 	einfo "Compiling ${PN} (${GCC_MAKE_TARGET})..."
 
 	pushd "${WORKDIR}"/build >/dev/null
@@ -1786,19 +1799,6 @@ gcc_do_make() {
 		else
 			ewarn "Skipping libstdc++ manpage generation since you don't have doxygen installed"
 		fi
-	fi
-
-	if is_jit ; then
-		# TODO: docs for jit?
-		pushd "${WORKDIR}"/build-jit > /dev/null || die
-
-		einfo "Building JIT"
-		emake \
-			LDFLAGS="${LDFLAGS}" \
-			STAGE1_CFLAGS="${STAGE1_CFLAGS}" \
-			LIBPATH="${LIBPATH}" \
-			BOOT_CFLAGS="${BOOT_CFLAGS}"
-		popd > /dev/null || die
 	fi
 
 	popd >/dev/null
