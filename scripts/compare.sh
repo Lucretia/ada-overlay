@@ -66,7 +66,7 @@ for e in ${EBUILDS}; do
 
         rm ./${e}
     else
-        printf "\t${YELLOW}Found${YELLOW}, keeping.\n"
+        printf "\t${YELLOW}Found${YELLOW}, keeping.${NC}\n"
     fi
 done
 
