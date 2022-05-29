@@ -858,7 +858,7 @@ toolchain_src_configure() {
 		# einfo " >> Ada Bootstrap slot is ${SLOT}"
 
 		# Make sure we set a path to the Ada bootstrap if gcc[ada] is not already installed.
-		if has_version -b "sys-devel/gcc[ada]" ; then
+		if has_version -b "sys-devel/gcc:${SLOT}[ada]" ; then
 			einfo "Using installed GNAT compiler..."
 		else
 			einfo "Using bootstrap GNAT compiler..."
