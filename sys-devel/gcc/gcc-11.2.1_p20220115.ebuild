@@ -3,6 +3,7 @@
 
 EAPI=7
 
+TOOLCHAIN_PATCH_DEV="sam"
 PATCH_VER="4"
 PATCH_GCC_VER="11.3.0"
 MUSL_VER="1"
@@ -17,7 +18,7 @@ KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~m68k ~mips ppc ~ppc64 ~riscv ~s390 
 # bug #830454
 RDEPEND="elibc_glibc? ( sys-libs/glibc[cet(-)?] )"
 DEPEND="${RDEPEND}"
-BDEPEND="${CATEGORY}/binutils[cet(-)?]"
+BDEPEND=">=${CATEGORY}/binutils-2.30[cet(-)?]"
 
 src_prepare() {
 	toolchain_src_prepare
