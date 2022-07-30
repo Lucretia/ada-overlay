@@ -45,6 +45,13 @@ $ sudo emerge -av sys-devel/gcc
 The ```enable-overlay.sh``` script will enable all the use flags and disable the ```::gentoo``` specific packages. Once you have built GCC with Ada enabled, you need to disable the ```-ada-bootstrap``` USE flag and then rebuild it.
 
 The script will detect whether you have ```package.mask``` and ```package.use``` directories or files and insert the rules accordingly.
+
+## Assumptions
+
+You can only select one system toolchain (gcc) at a time. Therefore, it is assumed that if you install an ebuild, it is for that selected toolchain. This can't be right as gcc is slotted and gnat packages are installed within gcc's dir!!
+
+Could do something like python does, ```PYTHON_TARGETS```, but in this case, ```GNAT_TARGETS``` and ```gnat_targets_gnat9|10|11|12```. This is going to require a gnat.eclass file.
+
 ## Ada Bootstrap
 
 The script to build the bootstrap is incredibly fragile and can break every time the gcc archive versions change inside Gentoo. It might be worth not basing the bootstrap, on Gentoo's sources and just grab the version from git.
