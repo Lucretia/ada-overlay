@@ -49,9 +49,23 @@ The script will detect whether you have ```package.mask``` and ```package.use```
 
 The script to build the bootstrap is incredibly fragile and can break every time the gcc archive versions change inside Gentoo. It might be worth not basing the bootstrap, on Gentoo's sources and just grab the version from git.
 
-## GCC-9+ is supported
+## What is provided?
+
+### GCC-9+ is supported
 
 I tried to build 6.5.0, 7.6.0 and 8.5.0, but they all fail to build, quite quickly. It just seems that 9 is now the lowest version we can compile GNAT for. 6 and 7 are masked in gentoo now anyway.
+
+### AdaCore Components
+
+* [] XMLAda
+* [] GNATColl-Core
+* [] GNATColl-Bindings
+* [] GNATColl-DB
+* [] GPRBuild
+
+### Other Components
+
+* [] Alire
 
 ## Roadmap and Status
 
