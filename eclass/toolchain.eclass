@@ -291,7 +291,8 @@ fi
 
 #---->> DEPEND <<----
 
-RDEPEND="sys-libs/zlib
+RDEPEND="
+	sys-libs/zlib
 	virtual/libiconv
 	nls? ( virtual/libintl )
 "
@@ -322,7 +323,8 @@ BDEPEND="
 	test? (
 		>=dev-util/dejagnu-1.4.4
 		>=sys-devel/autogen-5.5.4
-	)"
+	)
+"
 
 # Depend on the version we already have installed or a bootstrap version.
 # Make sure the version required is at least the previous major version.
