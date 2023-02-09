@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: toolchain.eclass
@@ -271,8 +271,9 @@ if [[ ${PN} != kgcc64 && ${PN} != gcc-* ]] ; then
 	tc_version_is_at_least 8.0 &&
 		IUSE+=" systemtap" TC_FEATURES+=( systemtap )
 
-	tc_version_is_at_least 9.0 && IUSE+=" ada ada-bootstrap d"
+	tc_version_is_at_least 9.0 && IUSE+=" d" TC_FEATURES+=( d )
 	tc_version_is_at_least 9.1 && IUSE+=" lto"
+	tc_version_is_at_least 9.5 && IUSE+=" ada ada-bootstrap"
 	tc_version_is_at_least 10 && IUSE+=" cet"
 	tc_version_is_at_least 10 && IUSE+=" zstd" TC_FEATURES+=( zstd )
 	tc_version_is_at_least 11 && IUSE+=" valgrind" TC_FEATURES+=( valgrind )
