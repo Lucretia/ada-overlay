@@ -8,13 +8,15 @@ dropbox and should eventually be moved to distfiles.
 
 ## To install
 
+Only do one of these two steps, don't do the layman *and* the clone, it is layman *OR* cloning.
+
 ### With Layman
 
 ```
 $ layman -f -a ada -o https://raw.githubusercontent.com/Lucretia/ada-overlay/master/repositories.xml
 ```
 
-Now skip to enabling...
+Now skip to the section titled "Enable Ada support from this repo."
 
 ### Or, Cloning
 
