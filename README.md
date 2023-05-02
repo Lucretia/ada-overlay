@@ -14,7 +14,9 @@ dropbox and should eventually be moved to distfiles.
 $ layman -f -a ada -o https://raw.githubusercontent.com/Lucretia/ada-overlay/master/repositories.xml
 ```
 
-### Cloning
+Now skip to enabling...
+
+### Or, Cloning
 
 Find a place to put the overlay and clone it, note the name of the overlay is
 *ada* when using layman, not *ada-overlay*.
