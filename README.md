@@ -13,7 +13,7 @@ Only do one of these two steps, don't do the layman *and* the clone, it is layma
 ### With Layman
 
 ```
-$ layman -f -a ada -o https://raw.githubusercontent.com/Lucretia/ada-overlay/master/repositories.xml
+# layman -f -a ada -o https://raw.githubusercontent.com/Lucretia/ada-overlay/master/repositories.xml
 ```
 
 Now skip to the section titled "Enable Ada support from this repo."
@@ -42,8 +42,8 @@ auto-sync = no
 To enable the ada use flag and disable the Gentoo default packages, run the following:
 
 ```
-$ sudo ./scripts/enable-overlay.sh
-$ sudo emerge -av sys-devel/gcc
+# sudo ./scripts/enable-overlay.sh
+# sudo emerge -av sys-devel/gcc
 ```
 
 The ```enable-overlay.sh``` script will enable all the use flags and disable the ```::gentoo``` specific packages. Once you have built GCC with Ada enabled, you need to disable the ```-ada-bootstrap``` USE flag and then rebuild it.
