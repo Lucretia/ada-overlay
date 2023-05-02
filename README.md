@@ -8,33 +8,10 @@ dropbox and should eventually be moved to distfiles.
 
 ## To install
 
-Only do one of these two steps, don't do the layman *and* the clone, it is layman *OR* cloning.
-
 ### With Layman
 
 ```
 # layman -f -a ada -o https://raw.githubusercontent.com/Lucretia/ada-overlay/master/repositories.xml
-```
-
-Now skip to the section titled "Enable Ada support from this repo."
-
-### Or, Cloning
-
-Find a place to put the overlay and clone it, note the name of the overlay is
-*ada* when using layman, not *ada-overlay*.
-
-```bash
-git clone https://github.com/Lucretia/ada-overlay.git
-```
-
-Add the following to ```/etc/portage/repos.conf/local.conf```:
-
-```bash
-[ada]
-priority = 20
-location = /usr/local/overlays/ada
-masters = gentoo
-auto-sync = no
 ```
 
 ### Enable Ada support from this repo
@@ -42,8 +19,11 @@ auto-sync = no
 To enable the ada use flag and disable the Gentoo default packages, run the following:
 
 ```
-# sudo ./scripts/enable-overlay.sh
-# sudo emerge -av sys-devel/gcc
+# /var/lib/layman/ada/scripts/enable-overlay.sh
+# eix gnat-gpl
+* dev-lang/gnat-gpl
+     Available versions:  (10) [m]2021-r4   ## This should be masked "[m]" and if so, the above script has worked.
+# emerge -av sys-devel/gcc
 ```
 
 The ```enable-overlay.sh``` script will enable all the use flags and disable the ```::gentoo``` specific packages. Once you have built GCC with Ada enabled, you need to disable the ```-ada-bootstrap``` USE flag and then rebuild it.
