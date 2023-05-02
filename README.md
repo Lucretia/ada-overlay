@@ -23,6 +23,9 @@ To enable the ada use flag and disable the Gentoo default packages, run the foll
 # eix gnat-gpl
 * dev-lang/gnat-gpl
      Available versions:  (10) [m]2021-r4   ## This should be masked "[m]" and if so, the above script has worked.
+       {(+)ada +bootstrap cet +cxx d debug default-stack-clash-protection default-znow doc fixed-point +fortran go graphite hardened jit libssp lto modula2 multilib +nls +nptl objc objc++ objc-gc +openmp +pch pgo +pie rust +sanitize +ssp systemtap test vanilla vtv zstd}
+     Homepage:            http://libre.adacore.com/
+     Description:         GNAT Ada Compiler - GPL version
 # emerge -av sys-devel/gcc
 ```
 
