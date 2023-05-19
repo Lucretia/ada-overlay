@@ -268,7 +268,6 @@ if [[ ${PN} != kgcc64 && ${PN} != gcc-* ]] ; then
 		IUSE+=" graphite" TC_FEATURES+=( graphite )
 
 	tc_version_is_between 4.9 8 && IUSE+=" cilk"
-	# tc_version_is_at_least 4.9 && IUSE+=" ada"
 	tc_version_is_at_least 4.9 && IUSE+=" vtv"
 	tc_version_is_at_least 5.0 && IUSE+=" jit"
 	tc_version_is_between 5.0 9 && IUSE+=" mpx"
@@ -279,8 +278,8 @@ if [[ ${PN} != kgcc64 && ${PN} != gcc-* ]] ; then
 		IUSE+=" systemtap" TC_FEATURES+=( systemtap )
 
 	tc_version_is_at_least 9.0 && IUSE+=" d" TC_FEATURES+=( d )
+	tc_version_is_at_least 9.0 && IUSE+=" ada ada-bootstrap" TC_FEATURES+=( ada )
 	tc_version_is_at_least 9.1 && IUSE+=" lto"
-	tc_version_is_at_least 9.5 && IUSE+=" ada ada-bootstrap"
 	tc_version_is_at_least 10 && IUSE+=" cet"
 	tc_version_is_at_least 10 && IUSE+=" zstd" TC_FEATURES+=( zstd )
 	tc_version_is_at_least 11 && IUSE+=" valgrind" TC_FEATURES+=( valgrind )
@@ -339,26 +338,58 @@ BDEPEND="
 # Depend on the version we already have installed or a bootstrap version.
 # Make sure the version required is at least the previous major version.
 # TODO: Can a version compile the previous version?
-if tc_version_is_at_least 12.0 ;  then
-	BDEPEND+=" ada? ( || (
-		>=sys-devel/gcc-11[ada]
-		ada-bootstrap? ( dev-lang/ada-bootstrap:12 ) )
-	)"
-elif tc_version_is_at_least 11.0 ; then
-	BDEPEND+=" ada? ( || (
-		>=sys-devel/gcc-10[ada]
-		ada-bootstrap? ( dev-lang/ada-bootstrap:11 ) )
-	)"
-elif tc_version_is_at_least 10.0 ; then
-	BDEPEND+=" ada? ( || (
-		>=sys-devel/gcc-9.4.0[ada]
-		ada-bootstrap? ( dev-lang/ada-bootstrap:10 ) )
-	)"
-elif tc_version_is_at_least 9.0 ; then
-	BDEPEND+=" ada? ( || (
-		>=sys-devel/gcc-9.4.0[ada]
-		ada-bootstrap? ( dev-lang/ada-bootstrap:9 ) )
-	)"
+#if tc_version_is_at_least 12.0 ;  then
+#	BDEPEND+=" ada? ( || (
+#		>=sys-devel/gcc-11[ada]
+#		ada-bootstrap? ( dev-lang/ada-bootstrap:12 ) )
+#	)"
+#elif tc_version_is_at_least 11.0 ; then
+#	BDEPEND+=" ada? ( || (
+#		>=sys-devel/gcc-10[ada]
+#		ada-bootstrap? ( dev-lang/ada-bootstrap:11 ) )
+#	)"
+#elif tc_version_is_at_least 10.0 ; then
+#	BDEPEND+=" ada? ( || (
+#		>=sys-devel/gcc-9.4.0[ada]
+#		ada-bootstrap? ( dev-lang/ada-bootstrap:10 ) )
+#	)"
+#elif tc_version_is_at_least 9.0 ; then
+#	BDEPEND+=" ada? ( || (
+#		>=sys-devel/gcc-9.4.0[ada]
+#		ada-bootstrap? ( dev-lang/ada-bootstrap:9 ) )
+#	)"
+#fi
+
+# Ada in 9.0+ is self-hosting and needs Ada to bootstrap.
+# Nabbed from the D version below. I'm sure if this is correct,
+# I basically want to use the ada-bootstrap:<SLOT> if the installed gcc[-ada]
+# or the gcc[+ada-bootstrap].
+if tc_has_feature ada ; then
+	if tc_version_is_at_least 12.0 ; then
+		BDEPEND+=" ada? ( || (
+			sys-devel/gcc[ada(-)]
+			<sys-devel/gcc-12[ada(-)]
+			ada-bootstrap? ( dev-lang/ada-bootstrap:12 )
+		) )"
+	elif tc_version_is_at_least 11.0 ; then
+		BDEPEND+=" ada? ( || (
+			sys-devel/gcc[ada(-)]
+			<sys-devel/gcc-11[ada(-)]
+			ada-bootstrap? ( dev-lang/ada-bootstrap:11 )
+		) )"
+	elif tc_version_is_at_least 10.0 ; then
+		BDEPEND+=" ada? ( || (
+			sys-devel/gcc[ada(-)]
+			<sys-devel/gcc-10[ada(-)]
+			ada-bootstrap? ( dev-lang/ada-bootstrap:10 )
+		) )"
+	elif tc_version_is_at_least 9.0 ; then
+		BDEPEND+=" ada? ( || (
+			sys-devel/gcc[ada(-)]
+			>=sys-devel/gcc-9.4.0[ada(-)]
+			ada-bootstrap? ( dev-lang/ada-bootstrap:9 )
+		) )"
+	fi
 fi
 
 DEPEND="${RDEPEND}"
@@ -1036,7 +1067,7 @@ toolchain_src_configure() {
 	fi
 	[[ -n ${CBUILD} ]] && confgcc+=( --build=${CBUILD} )
 
-	if use_if_iuse ada ; then
+	if _tc_use_if_iuse ada ; then
 		# einfo " >> Ada Bootstrap slot is ${SLOT}"
 
 		# Make sure we set a path to the Ada bootstrap if gcc[ada] is not already installed.
@@ -1057,7 +1088,7 @@ toolchain_src_configure() {
 
 			PATH="/opt/${ADA_BOOTSTRAP_DIR}/bin:${PATH}"
 
-			#einfo " >> Ada Bootstrap PATH = ${PATH}"
+			einfo " >> Ada Bootstrap PATH = ${PATH}"
 
 			export PATH
 		fi
