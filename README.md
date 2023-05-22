@@ -33,6 +33,21 @@ The ```enable-overlay.sh``` script will enable all the use flags and disable the
 
 The script will detect whether you have ```package.mask``` and ```package.use``` directories or files and insert the rules accordingly.
 
+## Updating GCC
+
+For now, when updating gcc, if you have multiple versions installed, ```eselect gcc set``` the version which matches the one you have installed with this overlay, until I can get this eclass working right, this will be necessary. e.g.
+
+```bash
+# select gcc list
+ [1] x86_64-pc-linux-gnu-11
+ [2] x86_64-pc-linux-gnu-12 *
+# eselect gcc set 1 && . /etc/profile && gcc -v
+...
+gcc version 11.3.1 20230120 (Gentoo 11.3.1_p20230120-r1 p7)
+# emerge -av sys-devel/gcc:11
+[ebuild     U  ] sys-devel/gcc-11.3.1_p20230427:11::ada [11.3.1_p20230120-r1:11::ada] USE="ada (cxx) d fortran graphite jit (multilib) nls nptl openmp (pie) sanitize ssp -ada-bootstrap* (-cet) (-custom-cflags) -debug -doc (-fixed-point) -go -hardened (-libssp) -lto -objc -objc++ -objc-gc (-pch) -pgo -systemtap -test -valgrind -vanilla -vtv -zstd" 0 KiB
+```
+
 ## Assumptions
 
 You can only select one system toolchain (gcc) at a time. Therefore, it is assumed that if you install an ebuild, it is for that selected toolchain. This can't be right as gcc is slotted and gnat packages are installed within gcc's dir!!
