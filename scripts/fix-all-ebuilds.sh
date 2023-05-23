@@ -23,3 +23,7 @@ check_error
 
 check_error
 
+./scripts/commit-all-new-files.sh
+
+check_error
+
