@@ -15,7 +15,9 @@ else
 fi
 
 GCC_DIR="sys-devel/gcc"
+FILES_DIR=${GCC_DIR}/files
 PORTAGE_GCC_DIR="${PORTAGE_DIR}/${GCC_DIR}"
+PORTAGE_FILES_DIR=${PORTAGE_GCC_DIR}/files
 PORTAGE_ECLASS_DIR="${PORTAGE_DIR}/eclass"
 
 printf ">> ${YELLOW}SYSTEM EBUILDS${NC}\n"
@@ -70,41 +72,55 @@ for e in ${EBUILDS}; do
     fi
 done
 
-# Check for the patches in the ebuild/eclass.
-printf "\n>> ${YELLOW}PATCHES${NC}\n"
+# Check for the files/patches in the ebuild/eclass.
+printf "\n>> ${YELLOW}FILES${NC}\n"
 
-PATCHES=$(ls ${PORTAGE_GCC_DIR}/files/*)
+FILES=$(ls ${PORTAGE_FILES_DIR}/*)
 
-function check_error() {
-    if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Found${NC}."
+# Check for files missing from the overlay.
+for f in ${FILES}; do
+    echo ">> Checking '${f}' in portage files..."
+
+    FILE_NAME=$(basename ${f})
+    VERSION=$(echo ${FILE_NAME} | awk -F\- '{ print $2 }' | awk -F\. '{ print $1 }')
+
+    if [ ! -e "./${FILES_DIR}/${FILE_NAME}" ]; then
+        printf "\t${RED}Not found${NC}, copying it over.\n"
+
+        cp ${f} ./${FILES_DIR}/
     else
-        echo -e "${YELLOW}Not found${NC}."
+        echo -en "\tFound, now diffing..."
 
-        RESULT=$?
-    fi
-}
+        diff ${f} ./${FILES_DIR}/${FILE_NAME} &> /dev/null
 
-for p in ${PATCHES}; do
-    RESULT=0
-    PATCH=$(basename ${p})
+        if [ $? != 0 ]; then
+            printf "${RED}not the same${NC}, copying it over.\n"
 
-    echo ">> Checking for existence of '${PATCH}'..."
-    echo -en "\tIn system ebuilds..."
-
-    grep -r ${PATCH} ${PORTAGE_GCC_DIR}/*.ebuild &> /dev/null
-
-    check_error
-
-    echo -en "\tIn system toolchain.eclass..."
-
-    grep -r ${PATCH} ${PORTAGE_ECLASS_DIR}/toolchain.eclass &> /dev/null
-
-    check_error
-
-    if [ ${RESULT} != 0 ]; then
-        echo -e "\t\t${YELLOW}Not found${NC} in either ebuild's or eclass, possibly safe to remove."
+            cp ${f} ./${FILES_DIR}/
+        else
+            printf "${GREEN}same${NC}.\n"
+        fi
     fi
 done
+
+# Check for files in overlay which have been removed from portage.
+printf "\n>> ${YELLOW}OVERLAY FILES${NC}\n"
+
+FILES=$(ls ${FILES_DIR}/)
+
+for f in ${FILES}; do
+    echo ">> Checking for existence of '${f}' in portage..."
+
+    FILE_NAME=$(basename ${f})
+
+    if [ ! -e "${PORTAGE_FILES_DIR}/${FILE_NAME}" ]; then
+        printf "\t${RED}Not found${NC}, deleting ${FILE_NAME}.\n"
+
+        rm ./${f}
+    else
+        printf "\t${YELLOW}Found${YELLOW}, keeping.${NC}\n"
+    fi
+done
+
 
 git status
