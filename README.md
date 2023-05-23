@@ -48,6 +48,10 @@ gcc version 11.3.1 20230120 (Gentoo 11.3.1_p20230120-r1 p7)
 [ebuild     U  ] sys-devel/gcc-11.3.1_p20230427:11::ada [11.3.1_p20230120-r1:11::ada] USE="ada (cxx) d fortran graphite jit (multilib) nls nptl openmp (pie) sanitize ssp -ada-bootstrap* (-cet) (-custom-cflags) -debug -doc (-fixed-point) -go -hardened (-libssp) -lto -objc -objc++ -objc-gc (-pch) -pgo -systemtap -test -valgrind -vanilla -vtv -zstd" 0 KiB
 ```
 
+### GCC 13
+
+There is currently no ada-bootstrap based on gcc 13, I have just built ```=sys-devel/gcc-13.1.1_p20230520``` with ```=sys-devel/gcc-12.3.0 (p2)```.
+
 ## Assumptions
 
 You can only select one system toolchain (gcc) at a time. Therefore, it is assumed that if you install an ebuild, it is for that selected toolchain. This can't be right as gcc is slotted and gnat packages are installed within gcc's dir!!
