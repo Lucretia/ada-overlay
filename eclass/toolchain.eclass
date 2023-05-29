@@ -342,32 +342,11 @@ BDEPEND="
 # Nabbed from the D version below. I'm sure if this is correct,
 # I basically want to use the ada-bootstrap:<SLOT> if the installed gcc[-ada]
 # or the gcc[+ada-bootstrap].
-if tc_has_feature ada ; then
-	if tc_version_is_at_least 12.0 ; then
-		BDEPEND+=" ada? ( || (
-			sys-devel/gcc[ada(-)]
-			<sys-devel/gcc-12[ada(-)]
-			ada-bootstrap? ( dev-lang/ada-bootstrap:12 )
-		) )"
-	elif tc_version_is_at_least 11.0 ; then
-		BDEPEND+=" ada? ( || (
-			sys-devel/gcc[ada(-)]
-			<sys-devel/gcc-11[ada(-)]
-			ada-bootstrap? ( dev-lang/ada-bootstrap:11 )
-		) )"
-	elif tc_version_is_at_least 10.0 ; then
-		BDEPEND+=" ada? ( || (
-			sys-devel/gcc[ada(-)]
-			<sys-devel/gcc-10[ada(-)]
-			ada-bootstrap? ( dev-lang/ada-bootstrap:10 )
-		) )"
-	elif tc_version_is_at_least 9.0 ; then
-		BDEPEND+=" ada? ( || (
-			sys-devel/gcc[ada(-)]
-			>=sys-devel/gcc-9.4.0[ada(-)]
-			ada-bootstrap? ( dev-lang/ada-bootstrap:9 )
-		) )"
-	fi
+if tc_has_feature ada && tc_version_is_at_least 9.0 ; then
+	BDEPEND+=" ada? ( || (
+		<sys-devel/gcc-${GCCMAJOR}[ada(-)]
+		ada-bootstrap? ( dev-lang/ada-bootstrap:${GCCMAJOR} )
+	) )"
 fi
 
 DEPEND="${RDEPEND}"
