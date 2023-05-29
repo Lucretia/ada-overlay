@@ -1025,7 +1025,7 @@ toolchain_src_configure() {
 	[[ -n ${CBUILD} ]] && confgcc+=( --build=${CBUILD} )
 
 	if _tc_use_if_iuse ada ; then
-		# einfo " >> Ada Bootstrap slot is ${SLOT}"
+		einfo " >> Ada Bootstrap slot is ${SLOT}"
 
 		# Make sure we set a path to the Ada bootstrap if gcc[ada] is not already installed.
 		if has_version -b "sys-devel/gcc:${SLOT}[ada]" ; then
