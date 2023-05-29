@@ -8,10 +8,10 @@ dropbox and should eventually be moved to distfiles.
 
 ## To install
 
-### With Layman
+### With ```eselect```
 
 ```
-# layman -f -a ada -o https://raw.githubusercontent.com/Lucretia/ada-overlay/master/repositories.xml
+# eselect repository add ada git https://github.com/Lucretia/ada-overlay.git
 ```
 
 ### Enable Ada support from this repo
