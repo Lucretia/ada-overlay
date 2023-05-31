@@ -339,9 +339,9 @@ BDEPEND="
 "
 
 # Ada in 9.0+ is self-hosting and needs Ada to bootstrap.
-# Nabbed from the D version below. I'm sure if this is correct,
-# I basically want to use the ada-bootstrap:<SLOT> if the installed gcc[-ada]
-# or the gcc[+ada-bootstrap].
+# Taken from the D version below. I'm fairly sure if this is now correct,
+# We should build using either ada-bootstrap:<SLOT> if the installed gcc has
+# Ada disabled or the installed slot which matches the slot being built.
 if tc_has_feature ada && tc_version_is_at_least 9.0 ; then
 	BDEPEND+=" ada? ( || (
 		<sys-devel/gcc-${GCCMAJOR}[ada(-)]
