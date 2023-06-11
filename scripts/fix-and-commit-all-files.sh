@@ -27,3 +27,6 @@ check_error
 
 check_error
 
+./scripts/create-new-manifest.sh
+
+check_error
