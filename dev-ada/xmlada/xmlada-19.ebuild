@@ -1,6 +1,8 @@
 # Copyright 2020-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Disclaimer: This is a mess. AdaCore's build scripts are different for every project.
+
 EAPI=8
 
 inherit toolchain-funcs multiprocessing git-r3
