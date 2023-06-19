@@ -133,6 +133,7 @@ src_install() {
 
 	# We don't need this, gprinstall is not used to remove the package.
 	# rm -r ${GPRDIR}/manifests
+	rm -r ${ED}/usr/share/gpr/manifests
 
 	# Fix the header files location.
 	# local GNATSLOT="gnat-${SLOT}"
