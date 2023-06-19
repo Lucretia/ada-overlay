@@ -35,7 +35,7 @@ src_configure() {
 		# export PATH=$PATH:/opt/ada-bootstrap-${SLOT}/bin
 		local GCC_MAJOR=$(gcc-major-version)
 
-		if [ "${GCC_MAJOR}" -le "10" ]; then
+		if [ "${GCC_MAJOR}" -lt "10" ]; then
 			export PATH=$PATH:/opt/ada-bootstrap-9.5.0/bin
 		else
 			export PATH=$PATH:/opt/ada-bootstrap-${GCC_MAJOR}/bin

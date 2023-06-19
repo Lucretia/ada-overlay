@@ -18,7 +18,7 @@ IUSE="ada-bootstrap"
 #RESTRICT=""
 
 DEPEND=">=sys-devel/gcc-9.5.0
-		=dev-ada/gprconfig_kb-23.2
+		=dev-ada/gprconfig_kb-22.2
 		>=dev-ada/xmlada-23.2"
 
 PATCHES=(
@@ -39,6 +39,8 @@ src_configure() {
 		else
 			export PATH=$PATH:/opt/ada-bootstrap-${GCC_MAJOR}/bin
 		fi
+
+		einfo "gprbuild : $(which gprbuild) - $(gprbuild --version)"
 	else
 		gprbuild 2>/dev/null || die "No gprbuild found, enable USE=ada-bootstrap to build."
 	fi
