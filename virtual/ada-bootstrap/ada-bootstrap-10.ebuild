@@ -21,5 +21,5 @@ pkg_postinst() {
     einfo "Disable the 'ada-bootstrap' USE flag from make.conf or wherever you set it."
     einfo "Then execute the following commands:"
     einfo
-    einfo "  emerge -aC virtual/ada-bootstrap && emerge -av dev-ada/ada-meta"
+    einfo "  emerge -aC virtual/ada-bootstrap dev-ada/ada-bootstrap && emerge -av dev-ada/ada-meta"
 }
