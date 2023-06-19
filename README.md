@@ -26,7 +26,7 @@ To enable the ada use flag and disable the Gentoo default packages, run the foll
        {(+)ada +bootstrap cet +cxx d debug default-stack-clash-protection default-znow doc fixed-point +fortran go graphite hardened jit libssp lto modula2 multilib +nls +nptl objc objc++ objc-gc +openmp +pch pgo +pie rust +sanitize +ssp systemtap test vanilla vtv zstd}
      Homepage:            http://libre.adacore.com/
      Description:         GNAT Ada Compiler - GPL version
-# emerge -av sys-devel/gcc
+# emerge -av virtual/ada-bootstrap
 ```
 
 The ```enable-overlay.sh``` script will enable all the use flags and disable the ```::gentoo``` specific packages. Once you have built GCC with Ada enabled, you need to disable the ```-ada-bootstrap``` USE flag and then rebuild it.
