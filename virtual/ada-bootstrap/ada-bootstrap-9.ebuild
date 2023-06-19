@@ -12,8 +12,8 @@ KEYWORDS="-* amd64" # arm arm64 ppc64 ~riscv ~s390 x86 ~amd64-linux ~x86-linux ~
 IUSE="ada-bootstrap"
 
 DEPEND="
-    =dev-lang/ada-bootstrap-9.4.0
-    >=dev-ada/gprbuild-23.2[ada-bootstrap=]
+    =dev-lang/ada-bootstrap-9.5.0
+    <=dev-ada/gprbuild-20.2[ada-bootstrap=]
 "
 
 pkg_postinst() {
