@@ -2,6 +2,8 @@
 
 **WARNING:** This repository can be used to get the system compiler built with Ada support. You will need to use the ```gprbuild``` within the ```ada-bootstrap``` directory, place this last in the PATH.
 
+**WARNING:** There are numerous issues with this overlay, especially the new packages I just added. The dependencies are a mess. Having to uninstall packages before changing the versions. For some reason ```gprbuild``` not finding ```libgnarl.so```, wtaf? The -R flag, which seems to be required, but may be causing issues. If anyone can help, I'd appreciate the help.
+
 This overlay contains a modified set of packages and toolchain.eclass to enable
 Ada based on a USE flag.  The gnat bootstrap compilers are currently hosted on
 dropbox and should eventually be moved to distfiles.
