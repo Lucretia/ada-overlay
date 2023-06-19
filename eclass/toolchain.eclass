@@ -821,7 +821,7 @@ toolchain_src_configure() {
 			elif tc_version_is_at_least 10.0 ; then
 				ADA_BOOTSTRAP_DIR="ada-bootstrap-10"
 			elif tc_version_is_at_least 9.0 ; then
-				ADA_BOOTSTRAP_DIR="ada-bootstrap-9.4.0"
+				ADA_BOOTSTRAP_DIR="ada-bootstrap-9.5.0"
 			fi
 
 			PATH="/opt/${ADA_BOOTSTRAP_DIR}/bin:${PATH}"
