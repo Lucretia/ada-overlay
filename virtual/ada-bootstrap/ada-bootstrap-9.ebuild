@@ -11,12 +11,12 @@ SLOT="9"
 KEYWORDS="-* amd64" # arm arm64 ppc64 ~riscv ~s390 x86 ~amd64-linux ~x86-linux ~x64-macos ~x64-solaris"
 IUSE="ada-bootstrap"
 
+RDEPEND="ada-bootstrap? ( !dev-ada/ada-meta )"
+
 DEPEND="
     =dev-lang/ada-bootstrap-9.5.0
     <=dev-ada/gprbuild-20.2[ada-bootstrap=]
 "
-
-RDEPEND="ada-bootstrap? ( !dev-ada/ada-meta )"
 
 pkg_postinst() {
     einfo "You have installed a bootstrapped Ada compiler, you now need to install it again."

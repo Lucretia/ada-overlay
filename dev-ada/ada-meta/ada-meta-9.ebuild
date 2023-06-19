@@ -11,9 +11,9 @@ SLOT="9"
 KEYWORDS="-* amd64" # arm arm64 ppc64 ~riscv ~s390 x86 ~amd64-linux ~x86-linux ~x64-macos ~x64-solaris"
 IUSE="-ada-bootstrap"
 
+RDEPEND="ada-bootstrap? ( !virtual/ada-bootstrap )"
+
 DEPEND="
     =sys-devel/gcc-9.5.0[-ada-bootstrap]
     <=dev-ada/gprbuild-20.2[-ada-bootstrap]
 "
-
-RDEPEND="ada-bootstrap? ( !virtual/ada-bootstrap )"
