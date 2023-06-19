@@ -17,6 +17,7 @@ KEYWORDS="-* amd64"
 IUSE="ada-bootstrap"
 #RESTRICT=""
 
+# <=gprbuild-20.2 contains the
 # RDEPEND=">dev-ada/gprbuild-20.2"
 
 src_install() {
