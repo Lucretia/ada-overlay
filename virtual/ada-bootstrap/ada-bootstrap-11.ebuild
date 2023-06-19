@@ -13,7 +13,7 @@ IUSE="ada-bootstrap"
 
 DEPEND="
     dev-lang/ada-bootstrap:11
-    >=dev-ada/gprbuild-23.2[ada-bootstrap=]
+    =dev-ada/gprbuild-21.2[ada-bootstrap=]
 "
 
 pkg_postinst() {
