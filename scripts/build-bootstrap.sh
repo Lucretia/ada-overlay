@@ -51,11 +51,11 @@ case ${GCC_MAJOR} in
 	# ;;
 
 	9)
-		GCC_VER="9.4.0"
-		GCC_ARC="gcc-9.4.0.tar.xz"
-		GCC_PATCHES_PATTERN="gcc-9.4.0-patches-1.tar.bz2"
+		GCC_VER="9.5.0"
+		GCC_ARC="gcc-9.5.0.tar.xz"
+		GCC_PATCHES_PATTERN="gcc-9.5.0-patches-2.tar.bz2"
 		GCC_DIR=$(echo "${GCC_ARC}" | awk -F\. '{ print $1"."$2"."$3 }')
-		ADACORE_BRANCH="21.0"
+		ADACORE_BRANCH="20.2"
 	;;
 
 	10)
@@ -63,7 +63,7 @@ case ${GCC_MAJOR} in
 		GCC_ARC="gcc-10-20211126.tar.xz"
 		GCC_PATCHES_PATTERN="gcc-10.4.0-patches-0.tar.bz2"
 		GCC_DIR=$(echo "${GCC_ARC}" | awk -F\. '{ print $1 }')
-		ADACORE_BRANCH="21.2"
+		ADACORE_BRANCH="22.3"
 	;;
 
 	11)
@@ -71,7 +71,7 @@ case ${GCC_MAJOR} in
 		GCC_ARC="gcc-11-20220115.tar.xz"
 		GCC_PATCHES_PATTERN="gcc-11.3.0-patches-4.tar.bz2"
 		GCC_DIR=$(echo "${GCC_ARC}" | awk -F\. '{ print $1 }')
-		ADACORE_BRANCH="22.2"
+		ADACORE_BRANCH="23.2"
 	;;
 
 	12)
@@ -80,7 +80,7 @@ case ${GCC_MAJOR} in
 		GCC_ARC=""
 		GCC_PATCHES_PATTERN="gcc-12.0.0-patches-3.tar.bz2"
 		GCC_DIR="gcc-${GCC_VER}"
-		ADACORE_BRANCH="master"
+		ADACORE_BRANCH="23.2"
 	;;
 esac
 
@@ -207,36 +207,40 @@ cd /tmp
 
 ## GPRBuild
 
-GPRBUILD_SRC_DIR="gprbuild-${GCC_MAJOR}"
-XMLADA_SRC_DIR="xmlada-${GCC_MAJOR}"
-GPRCONFIG_KB_SRC_DIR="gprconfig_kb-${GCC_MAJOR}"
+GPRBUILD_SRC_DIR="gprbuild-${ADACORE_BRANCH}"
+XMLADA_SRC_DIR="xmlada-${ADACORE_BRANCH}"
+GPRCONFIG_KB_SRC_DIR="gprconfig_kb-${ADACORE_BRANCH}"
 
-if [ ! -f .gprbuild-downloaded-${GCC_MAJOR} ]; then
+if [ ! -f .gprbuild-downloaded-${ADACORE_BRANCH} ]; then
 	git clone -b ${ADACORE_BRANCH} ${GPRBUILD_GIT} ${GPRBUILD_SRC_DIR}
 
-	check_error .gprbuild-downloaded-${GCC_MAJOR}
+	check_error .gprbuild-downloaded-${ADACORE_BRANCH}
 fi
 
-if [ ! -f .xmlada-downloaded-${GCC_MAJOR} ]; then
+if [ ! -f .xmlada-downloaded-${ADACORE_BRANCH} ]; then
 	git clone -b ${ADACORE_BRANCH} ${XMLADA_GIT} ${XMLADA_SRC_DIR}
 
-	check_error .xmlada-downloaded-${GCC_MAJOR}
+	check_error .xmlada-downloaded-${ADACORE_BRANCH}
 fi
 
-if [ ! -f .gprconfig_kb-downloaded-${GCC_MAJOR} ]; then
+if [ ! -f .gprconfig_kb-downloaded-${ADACORE_BRANCH} ]; then
 	git clone -b ${ADACORE_BRANCH} ${GPRCONFIG_KB_GIT} ${GPRCONFIG_KB_SRC_DIR}
 
-	check_error .gprconfig_kb-downloaded-${GCC_MAJOR}
+	check_error .gprconfig_kb-downloaded-${ADACORE_BRANCH}
 fi
 
-if [ ! -f .gprbuild-built-${GCC_MAJOR} ]; then
+if [ ! -f .gprbuild-built-${ADACORE_BRANCH} ]; then
 	cd ${GPRBUILD_SRC_DIR}
 
 	echo ">> Building / Staging GPRBuild..."
 
-	DESTDIR=/tmp ./bootstrap.sh --with-xmlada=../${XMLADA_SRC_DIR} --with-kb=../${GPRCONFIG_KB_SRC_DIR} --prefix=/opt/${INSTALL_DIR} &> log.build.txt
+	if [ "${GCC_MAJOR}" -eq "9" ]; then
+		DESTDIR=/tmp ./bootstrap.sh --with-xmlada=../${XMLADA_SRC_DIR} --prefix=/opt/${INSTALL_DIR} &> log.build.txt
+	else
+		DESTDIR=/tmp ./bootstrap.sh --with-xmlada=../${XMLADA_SRC_DIR} --with-kb=../${GPRCONFIG_KB_SRC_DIR} --prefix=/opt/${INSTALL_DIR} &> log.build.txt
+	fi
 
-	check_error .gprbuild-built-${GCC_MAJOR}
+	check_error .gprbuild-built-${ADACORE_BRANCH}
 fi
 
 ## Installation
@@ -245,10 +249,10 @@ cd /tmp
 
 echo ">> Archiving..."
 
-if [ ! -f .gcc-archived-${GCC_MAJOR} ]; then
+if [ ! -f .gcc-archived-${ADACORE_BRANCH} ]; then
 	tar -cJpf ${INSTALL_DIR}-${ARCH}.tar.xz -C ./opt ${INSTALL_DIR}
 
-	check_error .gcc-archived-${GCC_MAJOR}
+	check_error .gcc-archived-${ADACORE_BRANCH}
 fi
 
 ## Clean up
