@@ -37,9 +37,9 @@ src_configure() {
 	if use ada-bootstrap; then
 		einfo "Selecting Ada bootstrap to get GPR tools."
 
-		# This should be slot, but the 9.x bootstrap is 9.4.0.
+		# This should be slot, but the 9.x bootstrap is 9.5.0.
 		# export PATH=$PATH:/opt/ada-bootstrap-${SLOT}/bin
-		export PATH=$PATH:/opt/ada-bootstrap-9.4.0/bin
+		export PATH=$PATH:/opt/ada-bootstrap-9.5.0/bin
 	fi
 
 	einfo "PWD           : $(pwd)"

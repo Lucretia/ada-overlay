@@ -38,12 +38,12 @@ src_configure() {
 	if use ada-bootstrap; then
 		einfo "Selecting Ada bootstrap to get GPR tools."
 
-		# This should be slot, but the 9.x bootstrap is 9.4.0.
+		# This should be slot, but the 9.x bootstrap is 9.5.0.
 		# export PATH=$PATH:/opt/ada-bootstrap-${SLOT}/bin
 		local GCC_MAJOR=$(gcc-major-version)
 
 		if [ "${GCC_MAJOR}" < "10" ]; then
-			export PATH=$PATH:/opt/ada-bootstrap-9.4.0/bin
+			export PATH=$PATH:/opt/ada-bootstrap-9.5.0/bin
 		else
 			export PATH=$PATH:/opt/ada-bootstrap-${GCC_MAJOR}/bin
 		fi
