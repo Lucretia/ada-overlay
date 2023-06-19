@@ -16,6 +16,8 @@ DEPEND="
     <=dev-ada/gprbuild-20.2[ada-bootstrap=]
 "
 
+RDEPEND="ada-bootstrap? ( !dev-ada/ada-meta )"
+
 pkg_postinst() {
     einfo "You have installed a bootstrapped Ada compiler, you now need to install it again."
     einfo "Disable the 'ada-bootstrap' USE flag from make.conf or wherever you set it."
