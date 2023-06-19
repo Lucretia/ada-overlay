@@ -2,7 +2,23 @@
 
 **WARNING:** This repository can be used to get the system compiler built with Ada support. You will need to use the ```gprbuild``` within the ```ada-bootstrap``` directory, place this last in the PATH.
 
-**WARNING:** There are numerous issues with this overlay, especially the new packages I just added. The dependencies are a mess. Having to uninstall packages before changing the versions. For some reason ```gprbuild``` not finding ```libgnarl.so```, wtaf? The -R flag, which seems to be required, but may be causing issues. If anyone can help, I'd appreciate the help.
+**WARNING:** There are numerous issues with this overlay, especially the new packages I just added. The dependencies are a mess. Having to uninstall packages before changing the versions. For some reason ```gprbuild``` not finding ```libgnarl.so```, wtaf? The -R flag, which seems to be required, but may be causing issues. If anyone can help, I'd appreciate the help. There are Gentoo security issues as well.
+
+## A brief overview
+
+Installing GNAT and it's associated tools is a massive pain in the arse and it always has been. The idea behind this overlay is to install a precompiled bootstrap (containing gcc, g++, gnat and gpr tools), this then enables us to compile the toolchain, i.e. gcc with USE=ada enabled.
+
+We then have to get XMLAda and GPRBuild installed. As GPRBuild depends on XMLAda and vice-versa, this is why there is a bootstrap gprbuild inside the ada-bootstrap archives.
+
+These previous packages are all installed with the ```ada-bootstrap``` USE flag enabled. The idea being that there be a package which brings in all the packages required to bootstrap with this USE flag. The user then has to remove some packages and then rebuild the above packages with the ```ada-bootstrap``` USE flag disabled, this is to be controlled via a different ```ada-meta``` package.
+
+These packages exist within the overlay, but the resulting installs are dubious at best.
+
+I originally started looking at slotting the packages but this is way too difficult, you can see the result of the first one [here](dev-ada/xmlada/xmlada-19.ebuild). But to quote Sheldon Cooper, "Nuts to that."
+
+I'd ideally like to not have to build these three-five packages twice and ideally remove the ```ada-bootstrap``` USE flag, but it just seems difficult to do given that the bootstrap gprbuild.
+
+## Original introduction
 
 This overlay contains a modified set of packages and toolchain.eclass to enable
 Ada based on a USE flag.  The gnat bootstrap compilers are currently hosted on
