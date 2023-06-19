@@ -70,11 +70,11 @@ I tried to build 6.5.0, 7.6.0 and 8.5.0, but they all fail to build, quite quick
 
 ### AdaCore Components
 
-* [] XMLAda
+* [X] XMLAda
 * [] GNATColl-Core
 * [] GNATColl-Bindings
 * [] GNATColl-DB
-* [] GPRBuild
+* [X] GPRBuild
 
 ### Other Components
 
