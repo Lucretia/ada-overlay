@@ -22,5 +22,5 @@ src_install() {
 	# mv ada-bootstrap-${PV} "${ED}/opt/" || die
 
 	insinto /usr/share/gprconfig
-	doins db/*.xml
+	doins db/*.{ent,xml}
 }
