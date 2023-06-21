@@ -22,6 +22,8 @@ BDEPEND="(
 	<=sys-devel/gcc-12[ada]
 )"
 
+DEPEND=${BDEPEND}
+
 	# "${FILESDIR}"/0001-Add-R-flag-to-gprbuild-20.2-Gentoo-needs-it-for-some.patch
 PATCHES=(
 	"${FILESDIR}"/relocatable-build.patch
