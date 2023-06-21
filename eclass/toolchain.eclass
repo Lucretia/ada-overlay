@@ -258,7 +258,7 @@ if [[ ${PN} != kgcc64 && ${PN} != gcc-* ]] ; then
 	IUSE+=" systemtap" TC_FEATURES+=( systemtap )
 
 	tc_version_is_at_least 9.0 && IUSE+=" d" TC_FEATURES+=( d )
-	tc_version_is_at_least 9.0 && IUSE+=" ada ada-bootstrap" TC_FEATURES+=( ada )
+	tc_version_is_at_least 9.0 && IUSE+=" ada" TC_FEATURES+=( ada )
 	tc_version_is_at_least 9.1 && IUSE+=" lto"
 	tc_version_is_at_least 10 && IUSE+=" cet"
 	tc_version_is_at_least 10 && IUSE+=" zstd" TC_FEATURES+=( zstd )
@@ -315,11 +315,13 @@ BDEPEND="
 # Taken from the D version below. I'm fairly sure if this is now correct,
 # We should build using either ada-bootstrap:<SLOT> if the installed gcc has
 # Ada disabled or the installed slot which matches the slot being built.
-if tc_has_feature ada && tc_version_is_at_least 9.0 ; then
-	BDEPEND+=" ada? ( || (
-		<sys-devel/gcc-${GCCMAJOR}[ada(-)]
-		ada-bootstrap? ( dev-lang/ada-bootstrap:${GCCMAJOR} )
-	) )"
+if tc_has_feature ada ; then
+	if tc_version_is_at_least 9.0 ; then
+		BDEPEND+=" ada? ( || (
+			<sys-devel/gcc-${SLOT}[ada(-)]
+			dev-lang/ada-bootstrap:${GCCMAJOR}
+		) )"
+	fi
 fi
 
 DEPEND="${RDEPEND}"
@@ -804,27 +806,28 @@ toolchain_src_configure() {
 	[[ -n ${CBUILD} ]] && confgcc+=( --build=${CBUILD} )
 
 	if _tc_use_if_iuse ada ; then
-		einfo " >> Ada Bootstrap slot is ${SLOT}"
+		local PREVSLOT=$((${GCCMAJOR} - 1)) # Can't use SLOT because 9.5.0.
+		einfo " >> Ada Bootstrap slot is ${GCCMAJOR}/${PREVSLOT}"
 
 		# Make sure we set a path to the Ada bootstrap if gcc[ada] is not already installed.
+
 		if has_version -b "sys-devel/gcc:${SLOT}[ada]" ; then
-			einfo "Using installed GNAT compiler..."
+			einfo "Using currently installed GNAT compiler in slot ${SLOT}..."
 
 			PATH="${BINPATH}:${PATH}"
+
+			einfo ">>>>>>  $(which gnat) => $(gnatmake --version)"
+		elif has_version -b "sys-devel/gcc:${PREVSLOT}[ada]" ; then
+			einfo "Using currently installed GNAT compiler in previous slot ${PREVSLOT}..."
+			einfo "${PREFIX}/${CTARGET}/gcc-bin/${PREVSLOT}} <<"
+
+			PATH="${PREFIX}/${CTARGET}/gcc-bin/${PREVSLOT}:${PATH}"
+
+			einfo ">>>>>>  $(which gnat) => $(gnatmake --version)"
 		else
 			einfo "Using bootstrap GNAT compiler..."
 
-			if tc_version_is_at_least 12.0 ;  then
-				ADA_BOOTSTRAP_DIR="ada-bootstrap-12"
-			elif tc_version_is_at_least 11.0 ; then
-				ADA_BOOTSTRAP_DIR="ada-bootstrap-11"
-			elif tc_version_is_at_least 10.0 ; then
-				ADA_BOOTSTRAP_DIR="ada-bootstrap-10"
-			elif tc_version_is_at_least 9.0 ; then
-				ADA_BOOTSTRAP_DIR="ada-bootstrap-9.5.0"
-			fi
-
-			PATH="/opt/${ADA_BOOTSTRAP_DIR}/bin:${PATH}"
+			PATH="/opt/ada-bootstrap-${GCCMAJOR}/bin:${PATH}"
 
 			einfo " >> Ada Bootstrap PATH = ${PATH}"
 
