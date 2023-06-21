@@ -32,17 +32,7 @@ PATCHES=(
 )
 
 src_configure() {
-	local GPRBUILD_BOOTSTRAP_DIR="/opt/gprbuild-bootstrap"
-
-	if [ -z $(builtin type -P gprbuild) ]; then
-		if [ -d "${GPRBUILD_BOOTSTRAP_DIR}" ] ; then
-			einfo "Selecting gprbuild bootstrap to enable build."
-
-			export PATH=$PATH:${GPRBUILD_BOOTSTRAP_DIR}/bin
-		fi
-	else
-		einfo "Using installed gprbuild."
-	fi
+	gprbuild_env_export
 
 	emake prefix=/usr setup
 }

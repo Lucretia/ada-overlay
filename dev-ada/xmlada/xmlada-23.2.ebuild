@@ -5,7 +5,7 @@
 
 EAPI=8
 
-inherit toolchain-funcs multiprocessing git-r3
+inherit toolchain-funcs multiprocessing git-r3 gprbuild-bootstrap
 
 DESCRIPTION="The XML/Ada toolkit. "
 HOMEPAGE="https://github.com/AdaCore/${PN}"
@@ -29,17 +29,7 @@ DEPEND="${BDEPEND}"
 src_configure() {
 	default
 
-	local GPRBUILD_BOOTSTRAP_DIR="/opt/gprbuild-bootstrap"
-
-	if [ -z $(builtin type -P gprbuild) ]; then
-		if [ -d "${GPRBUILD_BOOTSTRAP_DIR}" ] ; then
-			einfo "Selecting Ada bootstrap to get GPR tools."
-
-			export PATH=$PATH:${GPRBUILD_BOOTSTRAP_DIR}/bin
-		fi
-	else
-		einfo "Using installed gprbuild."
-	fi
+	gprbuild_env_export
 
 	# Force which compiler we are using here.
 	# export GCC_DIR="/usr/${CHOST}/gcc-bin/${SLOT}"

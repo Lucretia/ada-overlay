@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit toolchain-funcs multiprocessing git-r3
+inherit toolchain-funcs multiprocessing git-r3 gprbuild-bootstrap
 
 DESCRIPTION="GPRbuild is an advanced build system designed to help automate the construction of multi-language systems."
 HOMEPAGE="https://github.com/AdaCore/gprbuild"
@@ -33,17 +33,7 @@ PATCHES=(
 )
 
 src_configure() {
-	local GPRBUILD_BOOTSTRAP_DIR="/opt/gprbuild-bootstrap"
-
-	if [ -z $(builtin type -P gprbuild) ]; then
-		if [ -d "${GPRBUILD_BOOTSTRAP_DIR}" ] ; then
-			einfo "Selecting gprbuild bootstrap to enable build."
-
-			export PATH=$PATH:${GPRBUILD_BOOTSTRAP_DIR}/bin
-		fi
-	else
-		einfo "Using installed gprbuild."
-	fi
+	gprbuild_env_export
 
 	emake prefix=/usr setup
 }
