@@ -12,5 +12,5 @@ KEYWORDS="-* amd64" # arm arm64 ppc64 ~riscv ~s390 x86 ~amd64-linux ~x86-linux ~
 IUSE=""
 
 DEPEND="
-    =dev-ada/gprbuild-20.2
+    =dev-ada/gprbuild-22.2
 "
