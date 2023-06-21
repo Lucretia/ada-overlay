@@ -14,41 +14,44 @@ EGIT_BRANCH="${PV}"
 LICENSE="GPL-3+ LGPL-3+"
 SLOT="0"
 KEYWORDS="-* amd64"
-IUSE="ada-bootstrap"
+IUSE=""
 #RESTRICT=""
 
-DEPEND=">=sys-devel/gcc-9.5.0
-		=dev-ada/gprconfig_kb-23.2
-		>=dev-ada/xmlada-23.2"
+BDEPEND="(
+	>=sys-devel/gcc-11[ada]
+	<=sys-devel/gcc-12[ada]
+)"
 
+DEPEND="${BDEPEND}
+		=dev-ada/gprconfig_kb-${PV}
+		=dev-ada/xmlada-${PV}"
+
+	# "${FILESDIR}"/0001-Add-R-flag-to-gprbuild-Gentoo-needs-it-for-some-reas.patch
 PATCHES=(
 	"${FILESDIR}"/relocatable-build.patch
-	"${FILESDIR}"/0001-Add-R-flag-to-gprbuild-Gentoo-needs-it-for-some-reas.patch
 )
 
 src_configure() {
-	if use ada-bootstrap; then
-		einfo "Selecting Ada bootstrap to get GPR tools."
+	local GPRBUILD_BOOTSTRAP_DIR="/opt/gprbuild-bootstrap"
 
-		# This should be slot, but the 9.x bootstrap is 9.5.0.
-		# export PATH=$PATH:/opt/ada-bootstrap-${SLOT}/bin
-		local GCC_MAJOR=$(gcc-major-version)
+	if [ -z $(builtin type -P gprbuild) ]; then
+		if [ -d "${GPRBUILD_BOOTSTRAP_DIR}" ] ; then
+			einfo "Selecting gprbuild bootstrap to enable build."
 
-		if [ "${GCC_MAJOR}" -lt "10" ]; then
-			export PATH=$PATH:/opt/ada-bootstrap-9.5.0/bin
-		else
-			export PATH=$PATH:/opt/ada-bootstrap-${GCC_MAJOR}/bin
+			export PATH=$PATH:${GPRBUILD_BOOTSTRAP_DIR}/bin
 		fi
 	else
-		gprbuild 2>/dev/null || die "No gprbuild found, enable USE=ada-bootstrap to build."
+		einfo "Using installed gprbuild."
 	fi
 
 	emake prefix=/usr setup
 }
 
 src_compile() {
+	einfo "PATH = ${PATH}"
+
 	emake prefix=${ED}/usr
-	emake prefix=${ED}/usr libgpr.build.shared
+	# emake prefix=${ED}/usr libgpr.build.shared
 }
 
 src_install() {

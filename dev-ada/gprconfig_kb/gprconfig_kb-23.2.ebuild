@@ -14,7 +14,7 @@ EGIT_BRANCH="${PV}"
 LICENSE="GPL-3+ LGPL-3+"
 SLOT="0"
 KEYWORDS="-* amd64"
-IUSE="ada-bootstrap"
+IUSE=""
 #RESTRICT=""
 
 # RDEPEND=">dev-ada/gprbuild-20.2"
