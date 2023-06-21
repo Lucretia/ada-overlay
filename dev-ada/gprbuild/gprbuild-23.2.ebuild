@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit toolchain-funcs multiprocessing git-r3
+inherit toolchain-funcs multiprocessing git-r3 gprbuild-bootstrap
 
 DESCRIPTION="GPRbuild is an advanced build system designed to help automate the construction of multi-language systems."
 HOMEPAGE="https://github.com/AdaCore/gprbuild"
