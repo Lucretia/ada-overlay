@@ -1,36 +1,24 @@
 # Gentoo Ada overlay
 
-**WARNING:** This repository can be used to get the system compiler built with Ada support. You will need to use the ```gprbuild``` within the ```ada-bootstrap``` directory, place this last in the PATH.
-
-**WARNING:** There are numerous issues with this overlay, especially the new packages I just added. The dependencies are a mess. Having to uninstall packages before changing the versions. For some reason ```gprbuild``` not finding ```libgnarl.so```, wtaf? The -R flag, which seems to be required, but may be causing issues. If anyone can help, I'd appreciate the help. There are Gentoo security issues as well.
+**WARNING:** There still some issues with this overlay.
+  * This is in a very alpha state right now, use at your own risk.
+  * For some reason ```gprbuild``` cannot find ```libgnarl.so```, when compiled with the -R flag.
+  * There are Gentoo security issues due to not having this flag enabled.
 
 ## A brief overview
 
-Installing GNAT and it's associated tools is a massive pain in the arse and it always has been. The idea behind this overlay is to install a precompiled bootstrap (containing gcc, g++, gnat and gpr tools), this then enables us to compile the toolchain, i.e. gcc with USE=ada enabled.
+Installing GNAT and it's associated tools is a massive pain in the arse and it always has been. The idea behind this overlay is to make it easier on Gentoo.
 
-We then have to get XMLAda and GPRBuild installed. As GPRBuild depends on XMLAda and vice-versa, this is why there is a bootstrap gprbuild inside the ada-bootstrap archives.
+The original Ada support in Gentoo is using gnat-gpl and that is now dead.
 
-These previous packages are all installed with the ```ada-bootstrap``` USE flag enabled. The idea being that there be a package which brings in all the packages required to bootstrap with this USE flag. The user then has to remove some packages and then rebuild the above packages with the ```ada-bootstrap``` USE flag disabled, this is to be controlled via a different ```ada-meta``` package.
+GNAT GPL is being [discontinued](https://www.reddit.com/r/ada/comments/hwgbwa/survey_on_the_future_of_gnat_community) ([results](https://www.reddit.com/r/ada/comments/j6oz6i/results_of_the_survey_on_the_future_of_gnat/)) and can not be relied upon as the basis for Ada on Gentoo from now on. The plan is as follows:
 
-These packages exist within the overlay, but the resulting installs are dubious at best.
+## Installation
 
-I originally started looking at slotting the packages but this is way too difficult, you can see the result of the first one [here](dev-ada/xmlada/xmlada-19.ebuild). But to quote Sheldon Cooper, "Nuts to that."
-
-I'd ideally like to not have to build these three-five packages twice and ideally remove the ```ada-bootstrap``` USE flag, but it just seems difficult to do given that the bootstrap gprbuild has to be referenced in the ebuilds.
-
-Thinking about this, maybe going the route of a gprbuild-bootstrap package would be the best way, similar to how Arch has done this.
-
-## Original introduction
-
-This overlay contains a modified set of packages and toolchain.eclass to enable
-Ada based on a USE flag.  The gnat bootstrap compilers are currently hosted on
-dropbox and should eventually be moved to distfiles.
-
-## To install
-
-### With ```eselect```
+Install the over using eselect, the new way of handling overlays.
 
 ```
+# emerge -av app-eselect/eselect-repository
 # eselect repository add ada git https://github.com/Lucretia/ada-overlay.git
 ```
 
@@ -39,48 +27,90 @@ dropbox and should eventually be moved to distfiles.
 To enable the ada use flag and disable the Gentoo default packages, run the following:
 
 ```
-# /var/lib/layman/ada/scripts/enable-overlay.sh
+# /var/db/repos/ada/scripts/enable-overlay.sh
 # eix gnat-gpl
 * dev-lang/gnat-gpl
-     Available versions:  (10) [m]2021-r4   ## This should be masked "[m]" and if so, the above script has worked.
+     Available versions:  (10) [m]2021-r4
        {(+)ada +bootstrap cet +cxx d debug default-stack-clash-protection default-znow doc fixed-point +fortran go graphite hardened jit libssp lto modula2 multilib +nls +nptl objc objc++ objc-gc +openmp +pch pgo +pie rust +sanitize +ssp systemtap test vanilla vtv zstd}
      Homepage:            http://libre.adacore.com/
      Description:         GNAT Ada Compiler - GPL version
-# emerge -av virtual/ada-bootstrap
 ```
 
-The ```enable-overlay.sh``` script will enable all the use flags and disable the ```::gentoo``` specific packages. Once you have built GCC with Ada enabled, you need to disable the ```-ada-bootstrap``` USE flag and then rebuild it.
+This package should be masked (marked with a "[m]"), if so, the above script has worked.
 
-The script will detect whether you have ```package.mask``` and ```package.use``` directories or files and insert the rules accordingly.
+The ```enable-overlay.sh``` script will enable all the use flags and disable the ```::gentoo``` specific packages. The script will detect whether you have ```package.mask``` and ```package.use``` directories or files and insert the rules accordingly.
+
+### Select a toolchain
+
+You need to select which toolchain you are going to use. The overlay installs packages only for the enabled toolchain. The ```sys-devel/gcc``` ebuilds (via the ```toolchain.eclass```) will actually set the correct compiler to build with, whether that it the ```dev-lang/ada-bootstrap``` or an already compiled gcc with Ada enabled.
+```
+# eselect gcc list
+ [1] x86_64-pc-linux-gnu-9.5.0
+ [2] x86_64-pc-linux-gnu-10
+ [3] x86_64-pc-linux-gnu-11 *
+ [4] x86_64-pc-linux-gnu-12
+```
+
+You then need to install the Ada tools you will need to get going.
+
+```
+# emerge -av =dev-ada/ada-meta-11
+
+These are the packages that would be merged, in order:
+
+Calculating dependencies... done!
+Dependency resolution took 41.09 s.
+
+[ebuild  N     ] dev-ada/gprconfig_kb-23.2::ada  0 KiB
+[ebuild  N     ] dev-ada/gprbuild-bootstrap-23.2::ada  0 KiB
+[ebuild  N     ] dev-ada/xmlada-23.2::ada  0 KiB
+[ebuild  N     ] dev-ada/gprbuild-23.2::ada  0 KiB
+[ebuild   R    ] dev-ada/ada-meta-11:0::ada [11:9::ada] 0 KiB
+
+Total: 5 packages (4 new, 1 reinstall), Size of downloads: 0 KiB
+
+Would you like to merge these packages? [Yes/No]
+```
+
+Remove ```dev-ada/gprbuild-bootstrap``` once this has completed as you'll have no need for it afterwards.
 
 ## Updating GCC
 
-For now, when updating gcc, if you have multiple versions installed, ```eselect gcc set``` the version which matches the one you have installed with this overlay, until I can get this eclass working right, this will be necessary. e.g.
+When a new version of gcc is available, you can upgrade it and the new version will build using the old version as a boostrap so you will continue to have Ada available. Just remember to select the new gcc with ```eselect gcc set``` then remove and re-emerge the above packages.
 
 ```bash
 # select gcc list
- [1] x86_64-pc-linux-gnu-11
- [2] x86_64-pc-linux-gnu-12 *
-# eselect gcc set 1 && . /etc/profile && gcc -v
+ [1] x86_64-pc-linux-gnu-11 *
+ [2] x86_64-pc-linux-gnu-12
+# eselect gcc set 2 && . /etc/profile && gcc -v
 ...
-gcc version 11.3.1 20230120 (Gentoo 11.3.1_p20230120-r1 p7)
-# emerge -av sys-devel/gcc:11
-[ebuild     U  ] sys-devel/gcc-11.3.1_p20230427:11::ada [11.3.1_p20230120-r1:11::ada] USE="ada (cxx) d fortran graphite jit (multilib) nls nptl openmp (pie) sanitize ssp -ada-bootstrap* (-cet) (-custom-cflags) -debug -doc (-fixed-point) -go -hardened (-libssp) -lto -objc -objc++ -objc-gc (-pch) -pgo -systemtap -test -valgrind -vanilla -vtv -zstd" 0 KiB
+gcc version 12.3.1 20230526 (Gentoo 12.3.1_p20230526 p2)
+# emerge -av sys-devel/gcc:12
+[ebuild   R    ] sys-devel/gcc-12.3.1_p20230526:12::ada  USE="ada (cxx) d fortran graphite jit (multilib) nls nptl openmp (pie) sanitize ssp (-cet) (-custom-cflags) -debug -default-stack-clash-protection -default-znow -doc (-fixed-point) -go -hardened (-ieee-long-double) (-libssp) -lto -objc -objc++ -objc-gc (-pch) -pgo -systemtap -test -valgrind -vanilla -vtv -zstd" 0 KiB
 ```
 
-### GCC 13
+```
+# emerge -av =dev-ada/ada-meta-12
 
-There is currently no ada-bootstrap based on gcc 13, I have just built ```=sys-devel/gcc-13.1.1_p20230520``` with ```=sys-devel/gcc-12.3.0 (p2)```.
+These are the packages that would be merged, in order:
 
-## Assumptions
+Calculating dependencies... done!
+Dependency resolution took 41.14 s.
 
-You can only select one system toolchain (gcc) at a time. Therefore, it is assumed that if you install an ebuild, it is for that selected toolchain. This can't be right as gcc is slotted and gnat packages are installed within gcc's dir!!
+[ebuild  N     ] dev-ada/gprconfig_kb-23.2::ada  0 KiB
+[ebuild  N     ] dev-ada/gprbuild-bootstrap-23.2::ada  0 KiB
+[ebuild  N     ] dev-ada/xmlada-23.2::ada  0 KiB
+[ebuild  N     ] dev-ada/gprbuild-23.2::ada  0 KiB
+[ebuild  NS    ] dev-ada/ada-meta-12:0::ada [11:9::ada] 0 KiB
 
-Could do something like python does, ```PYTHON_TARGETS```, but in this case, ```GNAT_TARGETS``` and ```gnat_targets_gnat9|10|11|12```. This is going to require a gnat.eclass file.
+Total: 5 packages (4 new, 1 in new slot), Size of downloads: 0 KiB
 
-## Ada Bootstrap
+Would you like to merge these packages? [Yes/No]
+```
 
-The script to build the bootstrap is incredibly fragile and can break every time the gcc archive versions change inside Gentoo. It might be worth not basing the bootstrap, on Gentoo's sources and just grab the version from git.
+### GCC 13-14
+
+I have built ada-bootstrap's based on these versions, I just haven't tested them yet.
 
 ## What is provided?
 
@@ -91,42 +121,26 @@ I tried to build 6.5.0, 7.6.0 and 8.5.0, but they all fail to build, quite quick
 ### AdaCore Components
 
 * [X] XMLAda
+* [X] GPRBuild
 * [] GNATColl-Core
 * [] GNATColl-Bindings
 * [] GNATColl-DB
-* [X] GPRBuild
-
-### Other Components
-
+* [] GNATProve
 * [] Alire
+
+# Crossdev
+
+* Support for Ada - automatically built.
 
 ## Roadmap and Status
 
-As stated above, this no longer is up to date and working. GNAT GPL is being [discontinued](https://www.reddit.com/r/ada/comments/hwgbwa/survey_on_the_future_of_gnat_community) ([results](https://www.reddit.com/r/ada/comments/j6oz6i/results_of_the_survey_on_the_future_of_gnat/)) and can not be relied upon as the basis for Ada on Gentoo from now on. The plan is as follows:
-
-1. Incorporate ```ada-bootstrap``` (would be a local use flag) and ```system-bootstrap``` (currently useed by rust, go and openjdk) use flags into the build.
-   * These should be applied to the first two packages (XMLAda, GPRBuild), as they will need to access ```gprbuild``` in the ```ada-bootstrap``` package.
-   * Can use these with BDEPEND to bring in the correct ```ada-bootstrap``` archive.
-   * Will need to be switched to ```system-bootstrap``` once the system compiler is built with Ada.
-2. Add ebuild's for the following:
-   * XMLAda
-   * GPR Tools and libraries.
-   * GNATColl
-   * Alire
-   * GNATProve
-   * Move over existing ebuild's from ::gentoo where possible.
-   * Other various libraries:
-     * [dev-ada-overlay](https://github.com/sarnold/dev-ada-overlay)
-     * [Awesome Ada](https://github.com/ohenley/awesome-ada)
-3. Crossdev support for Ada - automatic once this is done.
-4. More eclasses for Ada ebuilds:
+1. Add eclasses for Ada ebuilds:
    * ```gnatmake.eclass```
    * ```gprbuild.eclass```
    * ```alire.eclass```
      * Not sure about this one now. During the emerge process, it's not allowed to call emerge again and I was considering adding emerge support to Alire, this would make Alire a user command only; I'm not even sure it can be used as a system command.
-5. Add a basic/default environment to gcc-config (note gprbuild doesn't use this) - Is this still required?
-6. Get toolchain.eclass modifications added to Gentoo base.
-7. More??
+2. Get toolchain.eclass modifications added to Gentoo base.
+3. More??
 
 ## Contributions
 
