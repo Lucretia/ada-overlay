@@ -7,7 +7,7 @@ DESCRIPTION="Meta Ada package"
 HOMEPAGE="https://github.com/Lucretia/ada-overlay"
 
 LICENSE="GPL-2+"
-SLOT="9"
+SLOT="0"
 KEYWORDS="-* amd64" # arm arm64 ppc64 ~riscv ~s390 x86 ~amd64-linux ~x86-linux ~x64-macos ~x64-solaris"
 IUSE=""
 
