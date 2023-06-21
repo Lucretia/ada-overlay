@@ -809,27 +809,21 @@ toolchain_src_configure() {
 		local PREVSLOT=$((${GCCMAJOR} - 1)) # Can't use SLOT because 9.5.0.
 		einfo " >> Ada Bootstrap slot is ${GCCMAJOR}/${PREVSLOT}"
 
-		# Make sure we set a path to the Ada bootstrap if gcc[ada] is not already installed.
-
+		# Make sure we set a path to the Ada bootstrap if gcc[ada] is not already
+		# installed. GNAT can usually be built using the last major version and
+		# the current version, at least.
 		if has_version -b "sys-devel/gcc:${SLOT}[ada]" ; then
-			einfo "Using currently installed GNAT compiler in slot ${SLOT}..."
+			einfo "Using GNAT compiler installed in slot ${SLOT}..."
 
 			PATH="${BINPATH}:${PATH}"
-
-			einfo ">>>>>>  $(which gnat) => $(gnatmake --version)"
 		elif has_version -b "sys-devel/gcc:${PREVSLOT}[ada]" ; then
-			einfo "Using currently installed GNAT compiler in previous slot ${PREVSLOT}..."
-			einfo "${PREFIX}/${CTARGET}/gcc-bin/${PREVSLOT}} <<"
+			einfo "Using GNAT compiler installed in previous slot ${PREVSLOT}..."
 
 			PATH="${PREFIX}/${CTARGET}/gcc-bin/${PREVSLOT}:${PATH}"
-
-			einfo ">>>>>>  $(which gnat) => $(gnatmake --version)"
 		else
 			einfo "Using bootstrap GNAT compiler..."
 
 			PATH="/opt/ada-bootstrap-${GCCMAJOR}/bin:${PATH}"
-
-			einfo " >> Ada Bootstrap PATH = ${PATH}"
 
 			export PATH
 		fi
