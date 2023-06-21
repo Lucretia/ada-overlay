@@ -18,7 +18,7 @@ disable_gentoo() {
 }
 
 update_package_use() {
-    local STR="sys-devel/gcc ada ada-bootstrap"
+    local STR="sys-devel/gcc ada"
     local PATH="/etc/portage/package.use"
 
     if [ -d ${PATH} ]; then
