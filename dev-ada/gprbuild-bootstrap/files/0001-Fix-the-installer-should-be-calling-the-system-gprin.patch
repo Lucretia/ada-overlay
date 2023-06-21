@@ -1,0 +1,32 @@
+From 036fdcb34dc96599148858a029a0fb5706c56999 Mon Sep 17 00:00:00 2001
+From: "Luke A. Guest" <laguest@archeia.com>
+Date: Mon, 19 Jun 2023 17:28:06 +0100
+Subject: [PATCH] Fix the installer, should be calling the system gprinstall
+ not the one just built. This is fixed in later gprbuilds.
+
+---
+ Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index a990abe2..168a2248 100644
+--- a/Makefile
++++ b/Makefile
+@@ -40,12 +40,12 @@ LIB_DIR       = lib/
+ # target options for cross-build
+ ifeq ($(HOST),$(TARGET))
+ GTARGET=
+-INSTALLER=exe/$(BUILD)/$(LIB_INSTALLER)
++# INSTALLER=exe/$(BUILD)/$(LIB_INSTALLER)
+ else
+ GTARGET=--target=$(TARGET)
+-INSTALLER=$(LIB_INSTALLER)
+ endif
+ 
++INSTALLER=$(LIB_INSTALLER)
+ EXEC_INSTALLER=$(INSTALLER) -XBUILD=${BUILD}
+ 
+ # check for out-of-tree build
+-- 
+2.41.0
+

@@ -1,0 +1,25 @@
+From 290a78d680f4d1fbc84381fda27d2ec8596609d4 Mon Sep 17 00:00:00 2001
+From: "Luke A. Guest" <laguest@archeia.com>
+Date: Mon, 19 Jun 2023 14:01:26 +0100
+Subject: [PATCH] Add -R flag to gprbuild, Gentoo needs it for some reason.
+
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index c3d302a7..6721113c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -73,7 +73,7 @@ endif
+ # Used to pass extra options to GPRBUILD, like -d for instance
+ GPRBUILD_OPTIONS=
+ 
+-BUILDER=gprbuild -p -m $(GTARGET) $(RBD) -j${PROCESSORS} -XBUILD=${BUILD} ${GPRBUILD_OPTIONS}
++BUILDER=gprbuild -R -p -m $(GTARGET) $(RBD) -j${PROCESSORS} -XBUILD=${BUILD} ${GPRBUILD_OPTIONS}
+ LIB_INSTALLER=gprinstall -p -f --target=$(TARGET) $(RBD) "--prefix=${prefix}"
+ CLEANER=gprclean -q $(RBD)
+ 
+-- 
+2.41.0
+
