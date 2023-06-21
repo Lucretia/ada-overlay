@@ -1,0 +1,4 @@
+# Complains about not being able to build libraries, this is an old error
+# and I've no idea why it does it.
+=dev-ada/gprbuild-bootstrap-22.2
+=dev-ada/gprbuild-22.2
