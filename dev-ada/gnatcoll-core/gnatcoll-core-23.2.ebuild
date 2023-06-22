@@ -1,0 +1,58 @@
+# Copyright 1999-2023 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=8
+inherit multiprocessing git-r3
+
+DESCRIPTION="GNAT Component Collection Core packages"
+HOMEPAGE="http://libre.adacore.com"
+EGIT_REPO_URI="https://github.com/AdaCore/gnatcoll-core.git"
+EGIT_BRANCH="${PV}"
+
+LICENSE="GPL-3+ LGPL-3+"
+SLOT="0/${PV}"
+KEYWORDS="amd64 x86"
+IUSE="doc"
+
+DEPEND="${RDEPEND}
+	dev-ada/gprbuild"
+
+src_configure() {
+	emake setup
+}
+
+src_compile() {
+	build () {
+		gprbuild -p -m -j$(makeopts_jobs) \
+			-XBUILD=PROD -v -XGNATCOLL_VERSION=${PV} \
+			-XLIBRARY_TYPE=$1 -XXMLADA_BUILD=$* -XGPR_BUILD=$1 \
+			gnatcoll.gpr -cargs:C ${CFLAGS} -cargs:Ada ${ADAFLAGS} || die
+	}
+	# if use shared; then
+		build relocatable
+	# fi
+	# if use static-libs; then
+	# 	build static
+	# fi
+	# if use static-pic; then
+	# 	build static-pic
+	# fi
+}
+
+src_install() {
+	local GNATCOLL_VERSION=${PV}
+	# if use shared; then
+		emake GNATCOLL_VERSION=${PV} prefix="${D}"/usr install-relocatable
+	# fi
+	# if use static-pic; then
+	# 	emake GNATCOLL_VERSION=${PV} prefix="${D}"/usr install-static-pic
+	# fi
+	# if use static-libs; then
+	# 	emake GNATCOLL_VERSION=${PV} prefix="${D}"/usr install-static
+	# fi
+	rm -r "${D}"/usr/share/gpr/manifests || die
+
+	if use doc ; then
+		einstalldocs
+	fi
+}
