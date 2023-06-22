@@ -1,28 +1,43 @@
-# Copyright 2020-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-inherit toolchain-funcs multiprocessing git-r3
+# ADA_COMPAT=( gnat_2021 gcc_12 )
 
-DESCRIPTION="GPRbuild is an advanced build system designed to help automate the construction of multi-language systems."
+# inherit ada
+inherit git-r3
+
+DESCRIPTION="GPR configuration knowledge base"
 HOMEPAGE="https://github.com/AdaCore/gprconfig_kb"
-#BOOTSTRAP_
+# SRC_URI="https://github.com/AdaCore/${PN}/archive/refs/tags/v${PV}.tar.gz
+# 	-> ${P}.tar.gz"
 EGIT_REPO_URI="https://github.com/AdaCore/gprconfig_kb.git"
 EGIT_BRANCH="${PV}"
 
 LICENSE="GPL-3+ LGPL-3+"
 SLOT="0"
-KEYWORDS="-* amd64"
+KEYWORDS="amd64 x86"
 IUSE=""
-#RESTRICT=""
 
-# RDEPEND=">dev-ada/gprbuild-20.2"
+# REQUIRED_USE="${ADA_REQUIRED_USE}"
+# PATCHES=( "${FILESDIR}"/${P}-gentoo.patch )
+
+# src_prepare() {
+# 	default
+
+# 	sed -i \
+# 		-e "s:@VER@:${GCC_PV}:g" \
+# 		db/compilers.xml \
+# 		db/gnat.xml \
+# 		db/c.xml \
+# 		db/linker.xml \
+# 		|| die
+# }
 
 src_install() {
-	# dodir /opt/ada-bootstrap-${PV}
-	# mv ada-bootstrap-${PV} "${ED}/opt/" || die
-
 	insinto /usr/share/gprconfig
 	doins db/*.{ent,xml}
+
+	einstalldocs
 }
