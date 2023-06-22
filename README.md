@@ -122,15 +122,23 @@ I tried to build 6.5.0, 7.6.0 and 8.5.0, but they all fail to build, quite quick
 
 * [X] XMLAda
 * [X] GPRBuild
-* [] GNATColl-Core
-* [] GNATColl-Bindings
-* [] GNATColl-DB
-* [] GNATProve
-* [] Alire
+* [ ] GNATProve
+* [ ] Alire
 
-# Crossdev
+* The following have been nicked from ::gentoo and butchered to work:
 
-* Support for Ada - automatically built.
+* [X] GNATColl-Core
+* [X] GNATColl-Bindings
+* [X] GNATColl-DB
+
+## Crossdev
+
+Support for Ada is automatically built when you build crossdev.
+
+## TODO
+
+* [ ] Have sources (ad[sb] files) stored into /usr/include/ada/<package>
+* [ ] Have libs (and ali files) stored into /usr/lib64/ada/<package>
 
 ## Roadmap and Status
 
