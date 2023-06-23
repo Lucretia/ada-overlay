@@ -122,14 +122,11 @@ I tried to build 6.5.0, 7.6.0 and 8.5.0, but they all fail to build, quite quick
 
 * [X] XMLAda
 * [X] GPRBuild
-* [ ] GNATProve
-* [ ] Alire
-
-* The following have been nicked from ::gentoo and butchered to work:
-
 * [X] GNATColl-Core
 * [X] GNATColl-Bindings
 * [X] GNATColl-DB
+* [ ] GNATProve
+* [ ] Alire
 
 ## Crossdev
 
