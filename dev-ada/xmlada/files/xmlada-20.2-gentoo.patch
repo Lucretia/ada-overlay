@@ -1,0 +1,46 @@
+From c78edd55804597ebe0a39d544d244357eb381d17 Mon Sep 17 00:00:00 2001
+From: "Luke A. Guest" <laguest@archeia.com>
+Date: Fri, 23 Jun 2023 10:51:17 +0100
+Subject: [PATCH] Apply Gentoo patch manually.
+
+---
+ Makefile.in    | 1 +
+ tests/Makefile | 3 +--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile.in b/Makefile.in
+index c735371..89d2fcc 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -67,6 +67,7 @@ static-pic:
+ 
+ # Rebuild the tests (and not the XML/Ada code itself)
+ test: force
++	GPR_PROJECT_PATH=schema:input_sources:dom:sax:unicode \
+ 	${GPRBUILD} -p -XLIBRARY_TYPE=static ${GPROPTS} \
+ 		-XTESTS_ACTIVATED=Only xmlada.gpr
+ 
+diff --git a/tests/Makefile b/tests/Makefile
+index 965db50..a029892 100644
+--- a/tests/Makefile
++++ b/tests/Makefile
+@@ -1,8 +1,6 @@
+ TESTS= test_unicode \
+ 		 test_state \
+-		 test_xml \
+ 		 test_adacore_dom \
+-		 test_schema \
+ 		 test_date_time \
+ 		 test_numbers \
+ 		 test_adacore_schema \
+@@ -81,6 +79,7 @@ generic_not_run_%:
+ test_multiple_xsd:
+ 	@echo "multiple xsd"
+ 	@cd schema/multiple_xsd; \
++		GPR_PROJECT_PATH=../../../distrib:../../../input_sources:../../../dom:../../../sax:../../../schema:../../../unicode \
+ 		gprbuild -q -Pdefault.gpr; \
+ 		./validate > $(RESULTS)/multiple_xsd.out; \
+ 		cp $(RESULTS)/multiple_xsd.out $(RESULTS)/multiple_xsd.diff; \
+-- 
+2.41.0
+

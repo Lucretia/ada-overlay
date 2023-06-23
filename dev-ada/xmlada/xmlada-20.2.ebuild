@@ -25,7 +25,7 @@ REQUIRED_USE="|| ( shared static-libs static-pic )"
 # DEPEND="${RDEPEND}
 # 	dev-ada/gprbuild[${ADA_USEDEP}]"
 
-# PATCHES=( "${FILESDIR}"/${P}-gentoo.patch )
+PATCHES=( "${FILESDIR}"/${P}-gentoo.patch )
 
 BDEPEND="
 	=dev-ada/gprbuild-${PV}
