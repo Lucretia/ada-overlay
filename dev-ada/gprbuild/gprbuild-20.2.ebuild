@@ -39,7 +39,7 @@ BDEPEND="(
 DEPEND="
 	${BDEPEND}
 
-	dev-ada/gprconfig_kb
+	=dev-ada/gprconfig_kb-${PV}
 "
 
 	# "${FILESDIR}"/0001-Add-R-flag-to-gprbuild-20.2-Gentoo-needs-it-for-some.patch

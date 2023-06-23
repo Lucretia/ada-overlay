@@ -20,7 +20,7 @@ RDEPEND="
 "
 
 DEPEND="${RDEPEND}
-	dev-ada/gprbuild"
+	=dev-ada/gprbuild-${PV}"
 
 # PATCHES=( "${FILESDIR}"/${PN}-2018-gentoo.patch )
 
