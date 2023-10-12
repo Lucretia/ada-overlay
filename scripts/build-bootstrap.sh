@@ -43,7 +43,7 @@ case ${GCC_MAJOR} in
 		# ../../gcc-8.5.0/gcc/ada/init.c:575:19: error: missing binary operator before token "("
 		#   575 | # if 16 * 1024 < (MINSIGSTKSZ)
 		#       |                   ^~~~~~~~~~~
-	# 	GCC_VER="8.5.0"
+	# 	GCC_MAJOR_VER="8.5.0"
 	# 	GCC_ARC="gcc-8.5.0.tar.xz"
 	# 	GCC_PATCHES_PATTERN="gcc-8.5.0-patches-2.tar.bz2"
 	# 	GCC_DIR=$(echo "${GCC_ARC}" | awk -F\. '{ print $1"."$2"."$3 }')
@@ -51,59 +51,78 @@ case ${GCC_MAJOR} in
 	# ;;
 
 	9)
-		GCC_VER="9"
-		GCC_ARC="gcc-9.5.0.tar.xz"
-		GCC_PATCHES_PATTERN="gcc-9.5.0-patches-2.tar.xz"
+		GCC_MAJOR_VER="9"
+		GCC_MINOR_VER="5.0"
+		PATCH_VER="2"
+		GCC_VER="${GCC_MAJOR_VER}.${GCC_MINOR_VER}"
+		GCC_ARC="gcc-${GCC_VER}.tar.xz"
+		GCC_PATCHES_PATTERN="gcc-${GCC_VER}-patches-${PATCH_VER}.tar.xz"
 		GCC_DIR=$(echo "${GCC_ARC}" | awk -F\. '{ print $1"."$2"."$3 }')
 		ADACORE_BRANCH="20.2"
 	;;
 
 	10)
-		GCC_VER="10"
-		GCC_ARC="gcc-10-20230426.tar.xz"
-		GCC_PATCHES_PATTERN="gcc-10.5.0-patches-6.tar.xz"
+		GCC_MAJOR_VER="10"
+		GCC_MINOR_VER="5.0"
+		PATCH_VER="6"
+		GCC_VER="${GCC_MAJOR_VER}.${GCC_MINOR_VER}"
+		GCC_ARC="gcc-${GCC_VER}.tar.xz"
+		GCC_PATCHES_PATTERN="gcc-${GCC_VER}-patches-${PATCH_VER}.tar.xz"
 		GCC_DIR=$(echo "${GCC_ARC}" | awk -F\. '{ print $1 }')
 		ADACORE_BRANCH="22.3"
 	;;
 
 	11)
-		GCC_VER="11"
-		GCC_ARC="gcc-11-20230427.tar.xz"
-		GCC_PATCHES_PATTERN="gcc-11.4.0-patches-9.tar.xz"
+		GCC_MAJOR_VER="11"
+		GCC_MINOR_VER="4.0"
+		GCC_DATE="20230824"
+		PATCH_VER="10"
+		GCC_VER="${GCC_MAJOR_VER}.${GCC_MINOR_VER}"
+		GCC_ARC="gcc-${GCC_MAJOR_VER}-${GCC_DATE}.tar.xz"
+		GCC_PATCHES_PATTERN="gcc-${GCC_VER}-patches-${PATCH_VER}.tar.xz"
 		GCC_DIR=$(echo "${GCC_ARC}" | awk -F\. '{ print $1 }')
 		ADACORE_BRANCH="23.2"
 	;;
 
 	12)
-		GCC_VER="12"
-		GCC_DATE="20230428"
-		GCC_ARC="gcc-12-${GCC_DATE}.tar.xz"
-		GCC_PATCHES_PATTERN="gcc-12.3.0-patches-2.tar.xz"
-		GCC_DIR="gcc-${GCC_VER}-${GCC_DATE}"
+		GCC_MAJOR_VER="12"
+		GCC_MINOR_VER="3.0"
+		GCC_DATE="20230825"
+		PATCH_VER="2"
+		GCC_VER="${GCC_MAJOR_VER}.${GCC_MINOR_VER}"
+		GCC_ARC="gcc-${GCC_MAJOR_VER}-${GCC_DATE}.tar.xz"
+		GCC_PATCHES_PATTERN="gcc-${GCC_VER}-patches-${PATCH_VER}.tar.xz"
+		GCC_DIR="gcc-${GCC_MAJOR_VER}-${GCC_DATE}"
 		ADACORE_BRANCH="23.2"
 	;;
 
 	13)
-		GCC_VER="13"
-		GCC_DATE="20230527"
-		GCC_ARC="gcc-13-${GCC_DATE}.tar.xz"
-		GCC_PATCHES_PATTERN="gcc-13.2.0-patches-3.tar.xz"
-		GCC_DIR="gcc-${GCC_VER}-${GCC_DATE}"
+		GCC_MAJOR_VER="13"
+		GCC_MINOR_VER="2.0"
+		GCC_DATE="20230826"
+		PATCH_VER="7"
+		GCC_VER="${GCC_MAJOR_VER}.${GCC_MINOR_VER}"
+		GCC_ARC="gcc-${GCC_MAJOR_VER}-${GCC_DATE}.tar.xz"
+		GCC_PATCHES_PATTERN="gcc-${GCC_VER}-patches-${PATCH_VER}.tar.xz"
+		GCC_DIR="gcc-${GCC_MAJOR_VER}-${GCC_DATE}"
 		ADACORE_BRANCH="23.2"
 	;;
 
 	14)
-		GCC_VER="14"
-		GCC_DATE="20230529"
-		GCC_ARC="gcc-14-${GCC_DATE}.tar.xz"
-		GCC_PATCHES_PATTERN="gcc-14.0.0-patches-1.tar.xz"
-		GCC_DIR="gcc-${GCC_VER}-${GCC_DATE}"
+		GCC_MAJOR_VER="14"
+		GCC_MINOR_VER="0.0"
+		GCC_DATE="20230917"
+		PATCH_VER="2"
+		GCC_VER="${GCC_MAJOR_VER}.${GCC_MINOR_VER}"
+		GCC_ARC="gcc-${GCC_MAJOR_VER}-${GCC_DATE}.tar.xz"
+		GCC_PATCHES_PATTERN="gcc-${GCC_VER}-patches-${PATCH_VER}.tar.xz"
+		GCC_DIR="gcc-${GCC_MAJOR_VER}-${GCC_DATE}"
 		ADACORE_BRANCH="23.2"
 	;;
 esac
 
 if [[ ! -f ${DISTFILES}/${GCC_ARC} ]]; then
-	emerge -f sys-devel/gcc:${GCC_VER}
+	emerge -f sys-devel/gcc:${GCC_MAJOR_VER}
 fi
 
 if [[ ${GCC_PATCHES_PATTERN} != "" ]]; then
@@ -116,7 +135,7 @@ pushd /tmp
 # echo ${GCC_PATCHES}
 
 if [ ! -f .gcc-unpacked-${GCC_MAJOR} ]; then
-	# if [[ ${GCC_ARC} == "" && ${GCC_VER} == "12" ]]; then
+	# if [[ ${GCC_ARC} == "" && ${GCC_MAJOR_VER} == "12" ]]; then
 	# 	echo ">> Downloading GCC 12 from master..."
 
 	# 	git clone --depth 2 https://gcc.gnu.org/git/gcc.git ${GCC_DIR}
@@ -154,8 +173,8 @@ if [[ ${GCC_PATCHES} != "" ]]; then
 fi
 
 # TODO: Get base dir from archive.
-BUILD_DIR="build-${GCC_VER}"
-INSTALL_DIR="ada-bootstrap-${GCC_VER}"
+BUILD_DIR="build-${GCC_MAJOR_VER}"
+INSTALL_DIR="ada-bootstrap-${GCC_MAJOR_VER}"
 
 if [ ! -d ../${BUILD_DIR} ]; then
 	mkdir ../${BUILD_DIR}
