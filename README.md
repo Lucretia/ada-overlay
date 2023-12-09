@@ -30,7 +30,7 @@ This allows me to use the following scripts:
 1. [diff_eclass.sh](./scripts/diff_eclass.sh)
 2. [show_eclass_history.sh](./scripts/show_eclass_history.sh)
 
-Which allow me to cherry pick commits to sync up my eclass with the one in gentoo.
+Which allow me to cherry pick commits to sync up my eclass with the one in gentoo. I store the last commit I cherry picked inside [.last-cherry-pick-commit.txt](./.last-cherry-pick-commit.txt).
 
 The script, [update.sh](./scripts/update.sh), will go through the ebuilds on my machine's ```/usr/portage``` directory and those in this overlay, adding and removing so both directories match each other.
 
