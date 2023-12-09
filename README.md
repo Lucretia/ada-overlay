@@ -13,6 +13,29 @@ The original Ada support in Gentoo is using gnat-gpl and that is now dead.
 
 GNAT GPL is being [discontinued](https://www.reddit.com/r/ada/comments/hwgbwa/survey_on_the_future_of_gnat_community) ([results](https://www.reddit.com/r/ada/comments/j6oz6i/results_of_the_survey_on_the_future_of_gnat/)) and can not be relied upon as the basis for Ada on Gentoo from now on. The plan is as follows:
 
+### My local repository
+
+I have gentoo as a remote repo added:
+
+```
+$ git remote -v
+gentoo  https://github.com/gentoo/gentoo.git (fetch)
+gentoo  https://github.com/gentoo/gentoo.git (push)
+origin  git@github.com:Lucretia/ada-overlay.git (fetch)
+origin  git@github.com:Lucretia/ada-overlay.git (push)
+```
+
+This allows me to use the following scripts:
+
+1. [diff_eclass.sh](./scripts/diff_eclass.sh)
+2. [show_eclass_history.sh](./scripts/show_eclass_history.sh)
+
+Which allow me to cherry pick commits to sync up my eclass with the one in gentoo.
+
+The script, [update.sh](./scripts/update.sh), will go through the ebuilds on my machine's ```/usr/portage``` directory and those in this overlay, adding and removing so both directories match each other.
+
+[fix-and-commit-all-files.sh](./scripts/fix-and-commit-all-files.sh) will commit all these changes in the overlay created when it is updated.
+
 ## Installation
 
 Install the over using eselect, the new way of handling overlays.
