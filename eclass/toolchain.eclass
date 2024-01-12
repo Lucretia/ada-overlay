@@ -252,7 +252,7 @@ if [[ ${PN} != kgcc64 && ${PN} != gcc-* ]] ; then
 	IUSE+=" graphite" TC_FEATURES+=( graphite )
 	IUSE+=" vtv"
 	IUSE+=" jit"
-	IUSE+=" +pie +ssp +pch"
+	IUSE+=" +pie +ssp pch"
 
 	IUSE+=" systemtap" TC_FEATURES+=( systemtap )
 
