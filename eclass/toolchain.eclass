@@ -406,6 +406,12 @@ if tc_has_feature valgrind ; then
 fi
 
 # TODO: Add a pkg_setup & pkg_pretend check for whether the active compiler
+# supports Ada.
+#if [[ ${PN} != gnat-gpl ]] && tc_has_feature ada ; then
+#	BDEPEND+=" ada? ( || ( sys-devel/gcc[ada] dev-lang/gnat-gpl[ada] ) )"
+#fi
+
+# TODO: Add a pkg_setup & pkg_pretend check for whether the active compiler
 # supports D.
 if tc_has_feature d && tc_version_is_at_least 12.0 ; then
 	# D in 12+ is self-hosting and needs D to bootstrap.
