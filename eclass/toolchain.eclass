@@ -334,7 +334,8 @@ fi
 
 #---->> DEPEND <<----
 
-RDEPEND="sys-libs/zlib
+RDEPEND="
+	sys-libs/zlib
 	virtual/libiconv
 	nls? ( virtual/libintl )
 "
